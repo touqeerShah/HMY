@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HMY Seller Studio Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-fixed-variant": "#666666",
+                    "tertiary-container": "#f5f3f3",
+                    "on-secondary": "#fff7f3",
+                    "inverse-on-surface": "#9c9d9d",
+                    "secondary-container": "#ffddb6",
+                    "on-primary": "#faf7f6",
+                    "on-primary-container": "#525151",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-container": "#5c5c5c",
+                    "on-tertiary": "#fbf8f8",
+                    "on-background": "#2d3435",
+                    "outline": "#757c7d",
+                    "on-surface": "#2d3435",
+                    "secondary": "#745b3b",
+                    "background": "#f9f9f9",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#e7e5e4",
+                    "surface-variant": "#dde4e5",
+                    "on-error-container": "#752121",
+                    "surface-container-high": "#e4e9ea",
+                    "error": "#9f403d",
+                    "error-container": "#fe8983",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "tertiary-fixed": "#f5f3f3",
+                    "on-surface-variant": "#5a6061",
+                    "secondary-dim": "#674f30",
+                    "primary-dim": "#535252",
+                    "tertiary": "#5f5f5f",
+                    "on-tertiary-fixed": "#494a4a",
+                    "surface-container-low": "#f2f4f4",
+                    "on-primary-fixed": "#403f3f",
+                    "surface-container": "#ebeeef",
+                    "tertiary-dim": "#535353",
+                    "on-error": "#fff7f6",
+                    "surface-dim": "#d4dbdd",
+                    "surface-bright": "#f9f9f9",
+                    "surface-container-highest": "#dde4e5",
+                    "inverse-primary": "#ffffff",
+                    "secondary-fixed-dim": "#f1cfa8",
+                    "primary": "#5f5e5e",
+                    "inverse-surface": "#0c0f0f",
+                    "on-secondary-fixed": "#513b1e",
+                    "on-secondary-container": "#654d2f",
+                    "secondary-fixed": "#ffddb6",
+                    "on-secondary-fixed-variant": "#705738",
+                    "surface": "#f9f9f9",
+                    "error-dim": "#4e0309",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "outline-variant": "#adb3b4",
+                    "primary-container": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f9f9f9;
+            color: #2d3435;
+        }
+        .serif-display {
+            font-family: 'Noto Serif', serif;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f2f4f4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #adb3b4;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background flex h-screen overflow-hidden">
+<!-- SideNavBar Component (Shared) -->
+<aside class="h-screen w-64 border-r-0 bg-[#f2f4f4] dark:bg-[#1A1A1A] flex flex-col h-full py-8 px-4 flex-shrink-0">
+<div class="mb-12 px-2">
+<h1 class="font-['Noto_Serif'] text-xl font-bold text-[#2d3435] dark:text-[#f9f9f9]">Seller Studio</h1>
+<p class="font-['Manrope'] text-[10px] tracking-widest uppercase opacity-60">HMY Management</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard Tab (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#ffffff] dark:bg-[#2d3435] text-[#745b3b] font-bold scale-[0.98] transition-transform duration-400 font-['Manrope'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Products Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 font-['Manrope'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Products</span>
+</a>
+<!-- Add New Product Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 font-['Manrope'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span>Add New Product</span>
+</a>
+<!-- Orders Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 font-['Manrope'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span>Orders</span>
+</a>
+<!-- Settings Tab -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 font-['Manrope'] text-sm tracking-wide uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-6 border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-xs font-bold">Atelier Admin</p>
+<p class="text-[10px] opacity-60">Sign Out</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-surface">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex justify-between items-center px-10 py-6 bg-surface/80 backdrop-blur-md">
+<div>
+<h2 class="serif-display text-2xl font-bold tracking-tight text-on-surface">Overview</h2>
+<p class="text-xs font-label tracking-widest text-on-surface-variant uppercase">Business Performance • Real-time</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary border border-surface"></span>
+</div>
+<div class="h-10 w-px bg-outline-variant/20"></div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-label uppercase tracking-widest">Last 30 Days</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</header>
+<div class="px-10 py-8 space-y-12 pb-24">
+<!-- Key Metrics Section: Asymmetric Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-1 bg-surface-container-lowest p-6 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Total Sales</span>
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="serif-display text-3xl font-bold text-on-surface">$48,290.00</p>
+<p class="text-[10px] text-secondary font-medium mt-1">+12.4% from last month</p>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-lowest p-6 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Total Orders</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="shopping_cart">shopping_cart</span>
+</div>
+<div>
+<p class="serif-display text-3xl font-bold text-on-surface">1,204</p>
+<p class="text-[10px] text-on-surface-variant font-medium mt-1">+3.2% from last month</p>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-lowest p-6 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">New Customers</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="group_add">group_add</span>
+</div>
+<div>
+<p class="serif-display text-3xl font-bold text-on-surface">342</p>
+<p class="text-[10px] text-secondary font-medium mt-1">+18.1% from last month</p>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-lowest p-6 flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Avg. Order Value</span>
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="payments">payments</span>
+</div>
+<div>
+<p class="serif-display text-3xl font-bold text-on-surface">$142.00</p>
+<p class="text-[10px] text-error font-medium mt-1">-1.4% from last month</p>
+</div>
+</div>
+</section>
+<!-- Sales Performance & Alerts -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Sales Chart Mockup -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 relative overflow-hidden">
+<div class="flex justify-between items-center mb-12">
+<div>
+<h3 class="serif-display text-xl font-bold">Sales Performance</h3>
+<p class="text-[10px] font-label uppercase tracking-widest opacity-60">Daily revenue trends</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-secondary"></span>
+<span class="text-[10px] font-label uppercase tracking-widest">Current</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-outline-variant"></span>
+<span class="text-[10px] font-label uppercase tracking-widest">Previous</span>
+</div>
+</div>
+</div>
+<!-- Chart Visual Representation -->
+<div class="h-64 flex items-end justify-between gap-2 relative">
+<!-- Background Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between">
+<div class="border-b border-outline-variant/10 w-full"></div>
+<div class="border-b border-outline-variant/10 w-full"></div>
+<div class="border-b border-outline-variant/10 w-full"></div>
+<div class="border-b border-outline-variant/10 w-full"></div>
+<div class="border-b border-outline-variant/10 w-full"></div>
+</div>
+<!-- Stylized SVG Chart Line (Muted Gold) -->
+<svg class="absolute inset-0 h-full w-full pointer-events-none" preserveaspectratio="none" viewbox="0 0 800 200">
+<path d="M0,180 Q100,160 200,120 T400,140 T600,60 T800,80" fill="none" stroke="#745b3b" stroke-linecap="butt" stroke-width="3"></path>
+<path d="M0,190 Q100,180 200,160 T400,170 T600,140 T800,150" fill="none" stroke="#adb3b4" stroke-dasharray="8 4" stroke-width="2"></path>
+</svg>
+<!-- Date Labels -->
+<div class="absolute bottom-[-24px] w-full flex justify-between text-[9px] font-label uppercase tracking-tighter opacity-40">
+<span>01 Oct</span>
+<span>07 Oct</span>
+<span>14 Oct</span>
+<span>21 Oct</span>
+<span>28 Oct</span>
+</div>
+</div>
+</div>
+<!-- Alerts & Stock Levels -->
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-surface-container-high p-6 h-full flex flex-col">
+<div class="flex items-center gap-2 mb-6 text-error">
+<span class="material-symbols-outlined" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<h3 class="serif-display text-lg font-bold">Inventory Alerts</h3>
+</div>
+<div class="space-y-4 flex-1">
+<div class="flex items-start gap-4 p-4 bg-surface-container-lowest">
+<div class="w-12 h-16 bg-surface-variant flex-shrink-0">
+<img alt="Product" class="w-full h-full object-cover" data-alt="Minimalist leather sneaker on a neutral gray background in high-end studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARARyNoH8hRi3P3AKjmngicRAVtSENUCOIxybqj0UZDB3Df7hR1resk768o82U9Vpaw0MNjFmeLdR-6GTgWgPM0BUPqZvsPvsCj7HHFs1WY744RWE0bNqFZaI7W9ob518cWtp9g-TffSpxnBdfBSt1JP-QKWTlon3vItJndt5htPkdGseINOJtChUTbQgD_bfXNN_MCjh1mFCdL9ofOKQIrFIwZ7_U5IGTj5UR4XWxquZBpzwN08Fg7dXB2xKDGAimZXrJD-kNlbg"/>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold uppercase tracking-wide">Oxford Leather Sneaker</p>
+<p class="text-[10px] text-on-surface-variant mt-1">SKU: HMY-L429 • <span class="text-error font-bold">2 units left</span></p>
+<button class="mt-2 text-[10px] font-label uppercase tracking-widest text-secondary underline underline-offset-4">Restock Now</button>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 bg-surface-container-lowest opacity-80">
+<div class="w-12 h-16 bg-surface-variant flex-shrink-0">
+<img alt="Product" class="w-full h-full object-cover" data-alt="Macro shot of a luxury silk necktie with intricate pattern on a white marble surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG5OmG6TJKXjC4Dhq7YvL6_RYLGiDtxkxuyFkeR5d6WKz5PnEo94eWQs2bRwPv1mpT3fYZtNW7SJ5iVwRAzO_v-aBKSDi4n6pQwDB_Z9Jnf-F6VQTQXvz9XCXp7w-mw6snmz03r9TDk5rWtfC7SBQByOc7AouoCyENV9RGh8X8kY6G_GlLbEv2V0VTXZhA1IC9MClhhXV8SRss6g1FiOzK0fiKr4WT7zC3_IxkA0Y_9K4tIuNXbxNLTKUTJhGc03ivCKqB2qobqlI"/>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold uppercase tracking-wide">Silk Artisan Tie</p>
+<p class="text-[10px] text-on-surface-variant mt-1">SKU: HMY-T012 • <span class="text-secondary font-bold">5 units left</span></p>
+<button class="mt-2 text-[10px] font-label uppercase tracking-widest text-secondary underline underline-offset-4">View Stock</button>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary text-[10px] font-label uppercase tracking-[0.2em] mt-6">View All Inventory</button>
+</div>
+</div>
+</section>
+<!-- Recent Orders & Top Products -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Recent Orders Table -->
+<div class="lg:col-span-3 bg-surface-container-lowest">
+<div class="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center">
+<div>
+<h3 class="serif-display text-xl font-bold">Recent Orders</h3>
+<p class="text-[10px] font-label uppercase tracking-widest opacity-60">Latest transactional activity</p>
+</div>
+<button class="px-4 py-2 bg-surface-container-low text-[10px] font-label uppercase tracking-widest">Download CSV</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-outline-variant/10 text-[9px] font-label uppercase tracking-widest text-on-surface-variant">
+<th class="px-8 py-4 font-normal">Order ID</th>
+<th class="px-8 py-4 font-normal">Customer</th>
+<th class="px-8 py-4 font-normal">Date</th>
+<th class="px-8 py-4 font-normal">Amount</th>
+<th class="px-8 py-4 font-normal">Status</th>
+<th class="px-8 py-4 font-normal text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-xs">
+<tr class="hover:bg-surface-container-low transition-colors duration-200">
+<td class="px-8 py-6 font-bold">#HMY-9402</td>
+<td class="px-8 py-6">Julianne Sterling</td>
+<td class="px-8 py-6 text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-8 py-6">$2,450.00</td>
+<td class="px-8 py-6"><span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[9px] uppercase font-bold tracking-tighter">Processing</span></td>
+<td class="px-8 py-6 text-right"><span class="material-symbols-outlined text-sm cursor-pointer" data-icon="visibility">visibility</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors duration-200">
+<td class="px-8 py-6 font-bold">#HMY-9398</td>
+<td class="px-8 py-6">Marcus Thorne</td>
+<td class="px-8 py-6 text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-8 py-6">$185.00</td>
+<td class="px-8 py-6"><span class="px-2 py-1 bg-tertiary-container text-on-tertiary-container text-[9px] uppercase font-bold tracking-tighter">Shipped</span></td>
+<td class="px-8 py-6 text-right"><span class="material-symbols-outlined text-sm cursor-pointer" data-icon="visibility">visibility</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors duration-200">
+<td class="px-8 py-6 font-bold">#HMY-9391</td>
+<td class="px-8 py-6">Elena Vasquez</td>
+<td class="px-8 py-6 text-on-surface-variant">Oct 23, 2024</td>
+<td class="px-8 py-6">$540.00</td>
+<td class="px-8 py-6"><span class="px-2 py-1 bg-tertiary-container text-on-tertiary-container text-[9px] uppercase font-bold tracking-tighter">Shipped</span></td>
+<td class="px-8 py-6 text-right"><span class="material-symbols-outlined text-sm cursor-pointer" data-icon="visibility">visibility</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Top Products -->
+<div class="lg:col-span-1 space-y-8">
+<div>
+<h3 class="serif-display text-xl font-bold mb-6">Top Products</h3>
+<div class="space-y-6">
+<div class="flex items-center gap-4 group">
+<div class="w-14 h-14 overflow-hidden bg-surface-container-low">
+<img alt="Top Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Luxury timepiece on velvet cushion with soft bokeh of high-end boutique interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_IosCuRf6Uc6bRYwE-ecLdnj93ZVCCHNhPq21WANpRL3G1wQfh-C__G4nJLw8_wi83-8z8VjHy89suoe-tS9mTbHVPrTHvNJOPdo_HOoSpTvsgFIWQkrUgrCXYlkuV8KcKI2LvDERDy14SLqP86APtsfKcpn6qSK67iLFb9futk_7xbUoPoxMM-dacc62VpiA9-axPlM3HlwmGid77g8Kgzay7n_EjMBIycXRI-rXV731wZrL3FFWWjjS-bMrs9xyuosmJuaArKk"/>
+</div>
+<div class="flex-1">
+<p class="text-[10px] font-bold uppercase tracking-wider">Heritage Chrono</p>
+<p class="text-[9px] text-on-surface-variant">142 Sales this month</p>
+<div class="w-full h-[2px] bg-outline-variant/10 mt-2">
+<div class="h-full bg-secondary w-[85%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-14 h-14 overflow-hidden bg-surface-container-low">
+<img alt="Top Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Folded premium linen garment in soft natural lighting on a textured stone surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIG3uIopLQj8L1_NegZIOn4uUGnBsjBAuKENu_Zb4lae-i1SR1nLCtUq3rUXVd_Mpk82duZDMkDHNvTB7O_W3e2l2aLH7EhiON99FCKvPjH7Dk10CgS70MGQP5eLMDAPglVZEZdBIsQ1R9ynDDTPmnG1VMzgEGtyHAXLuolz5cZD99jaoZ1WfZq0Y05v3l6ezp-Q8p95Sn_raVpvkCYXrkhd5rwpvEhXXObdtfwxZJ2HpTI5e2V3matBdYgzugP3dYOQ-C9lJmy_Y"/>
+</div>
+<div class="flex-1">
+<p class="text-[10px] font-bold uppercase tracking-wider">Essential Linen Shirt</p>
+<p class="text-[9px] text-on-surface-variant">98 Sales this month</p>
+<div class="w-full h-[2px] bg-outline-variant/10 mt-2">
+<div class="h-full bg-secondary w-[62%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-14 h-14 overflow-hidden bg-surface-container-low">
+<img alt="Top Product" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Minimalist candle in frosted glass on a clean wooden desk with architectural shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN-8OJbWWR7-cWOfhCkMgK6Mej1WzbdnxAxZyMnw9alkOvFd3DJ96Lbu1OrAJ-BAQR8gTEfVaLXAtiSMu7VLkxVVaxi8vsfOIu1OuHUv1I7UtB1HwOA2rbbNKthXGGFWS_aIJsTDyUUJW-0A_DOwdtNUqCrRok8hH4ISKthpSh_kHAyN5tA5fw0rpP51HZH176Hn8v-OQBr0pdbDg86HCDxQBlqLPmBf71QwG70MLcrnTalkTH_d_CcxSQqerVKD7GJYMZAYGgA8Q"/>
+</div>
+<div class="flex-1">
+<p class="text-[10px] font-bold uppercase tracking-wider">Atelier Home Scent</p>
+<p class="text-[9px] text-on-surface-variant">84 Sales this month</p>
+<div class="w-full h-[2px] bg-outline-variant/10 mt-2">
+<div class="h-full bg-secondary w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Action Card -->
+<div class="bg-[#2d3435] text-[#f9f9f9] p-6 text-center">
+<span class="material-symbols-outlined text-3xl mb-4 text-[#745b3b]" data-icon="auto_awesome">auto_awesome</span>
+<p class="serif-display text-lg mb-4">Launch Seasonal Campaign</p>
+<p class="text-[10px] font-label uppercase tracking-widest opacity-60 mb-6">Reach +5k elite customers instantly</p>
+<button class="w-full py-3 bg-[#745b3b] text-white text-[10px] font-label uppercase tracking-widest">Get Started</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer (Shared) -->
+<footer class="w-full bg-[#f2f4f4] dark:bg-[#1A1A1A] grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full">
+<div class="md:col-span-1">
+<h2 class="font-['Noto_Serif'] text-lg font-bold text-[#2d3435]">HMY Atelier</h2>
+<p class="mt-4 font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#f2f4f4]">Curating luxury since 2012.</p>
+<p class="mt-8 font-['Manrope'] text-[10px] tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4]">© 2024 HMY Atelier. All Rights Reserved.</p>
+</div>
+<div>
+<h4 class="font-bold text-[10px] tracking-[0.2em] uppercase mb-6">Support</h4>
+<ul class="space-y-4">
+<li><a class="font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Customer Service</a></li>
+<li><a class="font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Shipping &amp; Returns</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[10px] tracking-[0.2em] uppercase mb-6">Company</h4>
+<ul class="space-y-4">
+<li><a class="font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">About HMY</a></li>
+<li><a class="font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[10px] tracking-[0.2em] uppercase mb-6">Newsletter</h4>
+<div class="relative">
+<input class="w-full bg-transparent border-b border-outline-variant/30 py-2 text-xs focus:outline-none focus:border-secondary transition-colors" placeholder="Email Address" type="email"/>
+<button class="absolute right-0 bottom-2 text-secondary">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

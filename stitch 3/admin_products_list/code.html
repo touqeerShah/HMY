@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;800&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-fixed-variant": "#666666",
+                    "tertiary-container": "#f5f3f3",
+                    "on-secondary": "#fff7f3",
+                    "inverse-on-surface": "#9c9d9d",
+                    "secondary-container": "#ffddb6",
+                    "on-primary": "#faf7f6",
+                    "on-primary-container": "#525151",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-container": "#5c5c5c",
+                    "on-tertiary": "#fbf8f8",
+                    "on-background": "#2d3435",
+                    "outline": "#757c7d",
+                    "on-surface": "#2d3435",
+                    "secondary": "#745b3b",
+                    "background": "#f9f9f9",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#e7e5e4",
+                    "surface-variant": "#dde4e5",
+                    "on-error-container": "#752121",
+                    "surface-container-high": "#e4e9ea",
+                    "error": "#9f403d",
+                    "error-container": "#fe8983",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "tertiary-fixed": "#f5f3f3",
+                    "on-surface-variant": "#5a6061",
+                    "secondary-dim": "#674f30",
+                    "primary-dim": "#535252",
+                    "tertiary": "#5f5f5f",
+                    "on-tertiary-fixed": "#494a4a",
+                    "surface-container-low": "#f2f4f4",
+                    "on-primary-fixed": "#403f3f",
+                    "surface-container": "#ebeeef",
+                    "tertiary-dim": "#535353",
+                    "on-error": "#fff7f6",
+                    "surface-dim": "#d4dbdd",
+                    "surface-bright": "#f9f9f9",
+                    "surface-container-highest": "#dde4e5",
+                    "inverse-primary": "#ffffff",
+                    "secondary-fixed-dim": "#f1cfa8",
+                    "primary": "#5f5e5e",
+                    "inverse-surface": "#0c0f0f",
+                    "on-secondary-fixed": "#513b1e",
+                    "on-secondary-container": "#654d2f",
+                    "secondary-fixed": "#ffddb6",
+                    "on-secondary-fixed-variant": "#705738",
+                    "surface": "#f9f9f9",
+                    "error-dim": "#4e0309",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "outline-variant": "#adb3b4",
+                    "primary-container": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #f9f9f9; color: #2d3435; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 border-r-0 bg-[#f2f4f4] dark:bg-[#1A1A1A] flex flex-col py-8 px-4 fixed left-0 top-0 overflow-y-auto">
+<div class="mb-12 px-4">
+<h1 class="font-['Noto_Serif'] text-xl font-bold text-[#2d3435] dark:text-[#f9f9f9]">Seller Studio</h1>
+<p class="font-['Manrope'] text-[10px] tracking-widest uppercase text-[#5f5e5e] dark:text-[#adb3b4] mt-1 opacity-60">HMY Management</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 font-['Manrope'] text-sm tracking-wide uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Manrope'] text-sm tracking-wide uppercase bg-[#ffffff] dark:bg-[#2d3435] text-[#745b3b] font-bold transition-transform duration-400 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Manrope'] text-sm tracking-wide uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span>Add New Product</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Manrope'] text-sm tracking-wide uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 font-['Manrope'] text-sm tracking-wide uppercase text-[#5f5e5e] dark:text-[#adb3b4] hover:bg-[#ffffff]/50 dark:hover:bg-[#2d3435]/50 transition-transform duration-400 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<div class="flex items-center gap-3 pt-6 border-t border-outline-variant/10">
+<div class="w-8 h-8 bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Atelier Admin</p>
+<p class="text-[10px] text-on-surface-variant">Sign Out</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow ml-64 bg-background min-h-screen pb-24">
+<!-- Top Search Bar Section -->
+<header class="sticky top-0 z-10 bg-background/80 backdrop-blur-md px-12 py-8 flex justify-between items-end">
+<div>
+<h2 class="font-headline text-4xl font-bold tracking-tight text-on-background">Inventory</h2>
+<p class="font-body text-on-surface-variant text-sm mt-2 tracking-wide uppercase">Managing 148 Curated Pieces</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<input class="bg-transparent border-b border-outline-variant/40 focus:border-secondary outline-none py-2 px-1 w-64 text-sm font-body transition-colors duration-300" placeholder="Search product name or SKU..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-2 text-on-surface-variant text-lg" data-icon="search">search</span>
+</div>
+<button class="flex items-center gap-2 border-b border-outline-variant/40 pb-2 px-1 hover:border-secondary transition-colors duration-300">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+<span class="text-xs font-label uppercase tracking-widest">Filter</span>
+</button>
+</div>
+</header>
+<!-- Product Table Area -->
+<div class="px-12 mt-4">
+<div class="bg-surface-container-lowest overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label text-[10px] uppercase tracking-[0.15em] text-on-surface-variant border-none">
+<th class="py-6 px-8 font-semibold">Image</th>
+<th class="py-6 px-4 font-semibold">Product Name</th>
+<th class="py-6 px-4 font-semibold">Category</th>
+<th class="py-6 px-4 font-semibold">SKU</th>
+<th class="py-6 px-4 font-semibold text-right">Price</th>
+<th class="py-6 px-4 font-semibold text-center">Stock Status</th>
+<th class="py-6 px-8 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body text-sm text-on-surface divide-y divide-outline-variant/5">
+<!-- Row 1 -->
+<tr class="group hover:bg-surface-container-low transition-colors duration-300">
+<td class="py-6 px-8">
+<div class="w-16 h-20 overflow-hidden">
+<img alt="Silk Blouse" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Close-up of a premium champagne-colored silk blouse hanging against a minimalist white studio background with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACk6r9Eb0PUNYiF6leQ5BMiHaex5fm20m4eqAQgX87wemnRj-ggE_hMpvKU4Axfudt8XZSP4ocjHxpwlD6GX9jlAuL6FkOEC82KvKivo_tDgqgwEAgmvOmla-wICDHepbPm5Vr4vlWHo6oiH4FDMOFODdf5VRrzD7MtNsZbL6DGufon0DKDzT9ANAOIrhXv9ntrQFPI2LovVzhifsf5V8dZUvDlNMKOwvbHI5qjDDoscr-ucJxzLBNERiIwKuhyNPjhONPAebQQmY"/>
+</div>
+</td>
+<td class="py-6 px-4">
+<p class="font-semibold text-on-surface">L'Essentiel Silk Blouse</p>
+<p class="text-[10px] text-on-surface-variant/70 uppercase tracking-tighter mt-1">Champagne Gold</p>
+</td>
+<td class="py-6 px-4 text-on-surface-variant">Women</td>
+<td class="py-6 px-4 font-mono text-xs">HMY-WB-001</td>
+<td class="py-6 px-4 text-right font-medium">$285.00</td>
+<td class="py-6 px-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container text-[10px] uppercase tracking-widest font-bold">In Stock</span>
+</div>
+</td>
+<td class="py-6 px-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="text-on-surface-variant hover:text-secondary" title="Edit"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-error" title="Delete"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-surface-container-low transition-colors duration-300">
+<td class="py-6 px-8">
+<div class="w-16 h-20 overflow-hidden">
+<img alt="Wool Coat" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="High-angle shot of a structured charcoal wool tailored coat laid flat on a light grey textured surface, crisp architectural lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa3eKjEGSQgBjNMlK2QcFhyOfAiqwazemZKyVFWW1ZolG4-O_FR5H8AUVwhD87HSn-tpJ33c1naSgRf9NLq7YDgzHzcvjoaR9xdaayp9Org1ReFcZ96l81S-AFTN9dxkH2rNAkFe2_3wNpykKCLEz2vhRnOlfmSg7R-AkPc_6R4jqv74A3gRLGRFTptEH49ag8wBjiKJj7_EyaXF62g2CLEbUBd-5E-nzkri4eBA4l9T2BjGZpLb1WQzvakC2N6KBf_RiZPtNRdhA"/>
+</div>
+</td>
+<td class="py-6 px-4">
+<p class="font-semibold text-on-surface">Atelier Sculpted Coat</p>
+<p class="text-[10px] text-on-surface-variant/70 uppercase tracking-tighter mt-1">Charcoal Heather</p>
+</td>
+<td class="py-6 px-4 text-on-surface-variant">Men</td>
+<td class="py-6 px-4 font-mono text-xs">HMY-MC-042</td>
+<td class="py-6 px-4 text-right font-medium">$840.00</td>
+<td class="py-6 px-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-error-container/20 text-error text-[10px] uppercase tracking-widest font-bold">Low Stock</span>
+</div>
+</td>
+<td class="py-6 px-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="text-on-surface-variant hover:text-secondary" title="Edit"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-error" title="Delete"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-surface-container-low transition-colors duration-300">
+<td class="py-6 px-8">
+<div class="w-16 h-20 overflow-hidden">
+<img alt="Leather Bag" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Minimalist luxury leather handbag in deep ebony with subtle gold hardware, dramatic shadows against a soft beige backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIINoTB6toNjPRtL0IRAuDYGRyL8puMS4RXFHvtP2M17bm8FXatMOX4L1kT4lJEv5bosfwaW-dX6TJSvy-KGxeWqmfn4IiR1knZ3jpNO4RyTsNUqqVMtyfduY-rGtGmkFrgX9-tQXL0V_pMAQRnbFzblcp1Ge-zt_f4LlFw1kbTSLpwqyztGtf4xZdOOej4QNZd4VwSOvcVDNff88rcGnCnruNt-c4RyEheTFO73EZiLo0gq--N3fIGAC4uDHl0kaClm4637mXH4k"/>
+</div>
+</td>
+<td class="py-6 px-4">
+<p class="font-semibold text-on-surface">Noire Totale Tote</p>
+<p class="text-[10px] text-on-surface-variant/70 uppercase tracking-tighter mt-1">Midnight Grain</p>
+</td>
+<td class="py-6 px-4 text-on-surface-variant">Accessories</td>
+<td class="py-6 px-4 font-mono text-xs">HMY-AC-912</td>
+<td class="py-6 px-4 text-right font-medium">$1,150.00</td>
+<td class="py-6 px-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] uppercase tracking-widest font-bold opacity-50">Out of Stock</span>
+</div>
+</td>
+<td class="py-6 px-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="text-on-surface-variant hover:text-secondary" title="Edit"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-error" title="Delete"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-surface-container-low transition-colors duration-300">
+<td class="py-6 px-8">
+<div class="w-16 h-20 overflow-hidden">
+<img alt="Velvet Loafers" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Close-up detail of luxurious black velvet slippers with intricate embroidery, soft atmospheric lighting focusing on texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbyhN-5RaagKw7fgltF79MaRFH_ID30tMQXKuCwIc3OGk3Vzd8zaM3dIHmX4HQtlHTeDGY06e1aqzsKZRMsNJWNsr6a5iFu0Are2F8G3YnRJYskS2BHI2ZP-DnsBDXiendi6_s6JpSJl1wgmcIKxLXdoglfBjE7h3mJtkcgWAPClIuRiOYyEq7Z5XusYSadoHIylTrIsfedU2wLz_vuMBPrNn2liG6p9o-O2NxttNnyD05W7D2DrYcFa_tfzLbLHPYC3xBS9hwvbE"/>
+</div>
+</td>
+<td class="py-6 px-4">
+<p class="font-semibold text-on-surface">Velours Nocturne Loafers</p>
+<p class="text-[10px] text-on-surface-variant/70 uppercase tracking-tighter mt-1">Deep Onyx</p>
+</td>
+<td class="py-6 px-4 text-on-surface-variant">Men</td>
+<td class="py-6 px-4 font-mono text-xs">HMY-MS-221</td>
+<td class="py-6 px-4 text-right font-medium">$420.00</td>
+<td class="py-6 px-4">
+<div class="flex justify-center">
+<span class="px-3 py-1 bg-secondary-container/30 text-on-secondary-container text-[10px] uppercase tracking-widest font-bold">In Stock</span>
+</div>
+</td>
+<td class="py-6 px-8 text-right">
+<div class="flex justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="text-on-surface-variant hover:text-secondary" title="Edit"><span class="material-symbols-outlined text-lg" data-icon="edit">edit</span></button>
+<button class="text-on-surface-variant hover:text-error" title="Delete"><span class="material-symbols-outlined text-lg" data-icon="delete">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer of Table -->
+<footer class="mt-8 flex justify-between items-center px-2">
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Showing 1-4 of 148 products</p>
+<div class="flex gap-4">
+<button class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors duration-400">Previous</button>
+<div class="flex gap-2">
+<span class="font-label text-[10px] uppercase tracking-widest text-secondary font-bold underline underline-offset-4">01</span>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant/50">02</span>
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant/50">03</span>
+</div>
+<button class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors duration-400">Next</button>
+</div>
+</footer>
+</div>
+</main>
+<!-- Success Feedback Overlay (Visual Only) -->
+<div class="fixed bottom-12 right-12 flex flex-col gap-4 pointer-events-none">
+<div class="bg-primary text-on-primary px-6 py-4 flex items-center gap-4 translate-y-0 opacity-100 shadow-[0px_20px_40px_rgba(45,52,53,0.06)]">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+<span class="font-label text-xs uppercase tracking-widest">Inventory sync complete</span>
+</div>
+</div>
+</body></html>

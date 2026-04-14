@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HMY Seller Studio - Add New Product</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#403f3f",
+                        "surface-container-low": "#f2f4f4",
+                        "tertiary-dim": "#535353",
+                        "surface-container": "#ebeeef",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "secondary-dim": "#674f30",
+                        "on-surface-variant": "#5a6061",
+                        "tertiary-fixed": "#f5f3f3",
+                        "tertiary": "#5f5f5f",
+                        "primary-dim": "#535252",
+                        "on-tertiary-fixed": "#494a4a",
+                        "on-secondary-container": "#654d2f",
+                        "on-secondary-fixed": "#513b1e",
+                        "inverse-surface": "#0c0f0f",
+                        "surface": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#705738",
+                        "secondary-fixed": "#ffddb6",
+                        "primary-container": "#e5e2e1",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "outline-variant": "#adb3b4",
+                        "error-dim": "#4e0309",
+                        "surface-bright": "#f9f9f9",
+                        "surface-dim": "#d4dbdd",
+                        "on-error": "#fff7f6",
+                        "inverse-primary": "#ffffff",
+                        "surface-container-highest": "#dde4e5",
+                        "primary": "#5f5e5e",
+                        "secondary-fixed-dim": "#f1cfa8",
+                        "on-primary": "#faf7f6",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary-container": "#525151",
+                        "on-background": "#2d3435",
+                        "on-tertiary": "#fbf8f8",
+                        "on-tertiary-container": "#5c5c5c",
+                        "surface-tint": "#5f5e5e",
+                        "on-tertiary-fixed-variant": "#666666",
+                        "on-secondary": "#fff7f3",
+                        "tertiary-container": "#f5f3f3",
+                        "secondary-container": "#ffddb6",
+                        "inverse-on-surface": "#9c9d9d",
+                        "on-error-container": "#752121",
+                        "surface-variant": "#dde4e5",
+                        "tertiary-fixed-dim": "#e7e5e4",
+                        "surface-container-high": "#e4e9ea",
+                        "error-container": "#fe8983",
+                        "error": "#9f403d",
+                        "outline": "#757c7d",
+                        "on-surface": "#2d3435",
+                        "background": "#f9f9f9",
+                        "secondary": "#745b3b",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f9f9f9;
+            color: #2d3435;
+        }
+        .editorial-title {
+            font-family: 'Noto Serif', serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Custom Toggle Switch Style */
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #745b3b;
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            left: calc(100% - 2px);
+            transform: translateX(-100%);
+        }
+        .toggle-label:after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            transition: 0.3s;
+        }
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23757c7d'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.25em;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-surface-container-low dark:bg-[#1A1A1A] flex flex-col py-8 px-4 border-r-0 z-40">
+<div class="mb-12 px-2">
+<h1 class="font-headline text-xl font-bold text-on-background dark:text-[#f9f9f9]">Seller Studio</h1>
+<p class="font-label text-[10px] tracking-widest uppercase text-outline mt-1">HMY Management</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center px-4 py-3 text-sm font-label tracking-wide uppercase text-outline hover:bg-surface-container-lowest/50 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-4 py-3 text-sm font-label tracking-wide uppercase text-outline hover:bg-surface-container-lowest/50 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
+                Products
+            </a>
+<a class="flex items-center px-4 py-3 text-sm font-label tracking-wide uppercase bg-surface-container-lowest dark:bg-[#2d3435] text-secondary font-bold scale-[0.98] transition-transform duration-400" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="add_box" style="font-variation-settings: 'FILL' 1;">add_box</span>
+                Add New Product
+            </a>
+<a class="flex items-center px-4 py-3 text-sm font-label tracking-wide uppercase text-outline hover:bg-surface-container-lowest/50 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="shopping_bag">shopping_bag</span>
+                Orders
+            </a>
+<a class="flex items-center px-4 py-3 text-sm font-label tracking-wide uppercase text-outline hover:bg-surface-container-lowest/50 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto px-4 pt-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary-container flex items-center justify-center text-xs font-bold">JD</div>
+<div>
+<p class="text-xs font-bold">Julianne Deville</p>
+<p class="text-[10px] text-outline">Atelier Curator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow ml-64 p-12 max-w-7xl">
+<!-- Header Section -->
+<header class="mb-16 flex justify-between items-end">
+<div>
+<span class="font-label text-xs tracking-[0.2em] uppercase text-secondary mb-2 block">Curation Engine</span>
+<h2 class="editorial-title text-4xl font-bold tracking-tight">Add New Product</h2>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-surface border border-outline-variant/15 text-primary text-xs font-label uppercase tracking-widest hover:bg-surface-container-low transition-colors duration-400">
+                    Save Draft
+                </button>
+<button class="px-8 py-3 bg-primary text-on-primary text-xs font-label uppercase tracking-widest hover:opacity-90 transition-opacity duration-400 shadow-sm">
+                    Publish to Store
+                </button>
+</div>
+</header>
+<!-- Form Content -->
+<div class="grid grid-cols-12 gap-12">
+<!-- Left Column: Primary Details -->
+<div class="col-span-12 lg:col-span-7 space-y-12">
+<!-- Basic Info -->
+<section class="space-y-8">
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Product Title</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-xl font-headline py-2 transition-colors duration-400" placeholder="e.g. Silk Georgette Evening Gown" type="text"/>
+</div>
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Detailed Description</label>
+<div class="border border-outline-variant/15 bg-surface-container-lowest">
+<div class="flex gap-4 p-3 border-b border-outline-variant/10 text-outline">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary text-sm" data-icon="format_bold">format_bold</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary text-sm" data-icon="format_italic">format_italic</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary text-sm" data-icon="format_list_bulleted">format_list_bulleted</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary text-sm" data-icon="link">link</span>
+</div>
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm leading-relaxed p-6" placeholder="Tell the story of this piece..." rows="12"></textarea>
+</div>
+</div>
+</section>
+<!-- Image Gallery -->
+<section class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant block">Product Visuals</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-[3/4] bg-surface-container-low flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/20 group hover:border-secondary/40 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-outline-variant mb-4 group-hover:text-secondary transition-colors" data-icon="add_a_photo">add_a_photo</span>
+<p class="font-label text-[10px] tracking-widest uppercase text-outline text-center px-4">Drag Hero Image</p>
+</div>
+<div class="space-y-4">
+<div class="aspect-square bg-surface-container-low flex flex-col items-center justify-center border border-outline-variant/15 cursor-pointer">
+<span class="material-symbols-outlined text-outline-variant text-sm" data-icon="add">add</span>
+</div>
+<div class="aspect-square relative overflow-hidden group">
+<img alt="" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDULyT1Um6kLaal2OFRtMt8HPAZge2yi1OXGX4rYwnf6rz098KjIra6Xq0tpYK3xC_UR_sgE6ZgQpGTI0hNooYzcBap9QHquzrumcHcvfV8lCTP1zqDlsILrzMLGMqSEXhstaP0uciT_qY1ufpeeu71IsF00rCysRsa3TLVg6q0QQPwTAk4mmGWuRMUSuDXryB5fKrbdtdqKjl2wCHv0QQgBgW0Am0f0q0HSFz1O5e1yfwR9oDZPNw6Pylf15SmqIX5xeZb6fMxmiQ"/>
+<button class="absolute top-2 right-2 bg-surface p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xs" data-icon="close">close</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Metadata & Inventory -->
+<div class="col-span-12 lg:col-span-5 space-y-12">
+<!-- Organization & Price -->
+<div class="bg-surface-container-low p-8 space-y-8">
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Classification</label>
+<select class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2">
+<option>Select Category</option>
+<option>Ready-to-Wear</option>
+<option>Accessories</option>
+<option>Leather Goods</option>
+<option>Fragrance</option>
+<option>Textiles</option>
+</select>
+</div>
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Product Type</label>
+<select class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2" id="product-type-select" onchange="updateInventoryUI()">
+<option value="apparel">Apparel</option>
+<option value="fabric">Unstitched / Fabric</option>
+<option value="home">Home &amp; Objects</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Base Price (USD)</label>
+<div class="relative">
+<span class="absolute left-0 bottom-2 text-outline-variant text-sm">$</span>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm pl-4 py-2" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Incentive (%)</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2" placeholder="0" type="number"/>
+</div>
+</div>
+<!-- Enhanced Promotional Discount Section -->
+<div class="pt-6 border-t border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<div>
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant block">Promotional Discount</label>
+<p class="text-[10px] text-outline/60 mt-1">Apply a limited-time price adjustment</p>
+</div>
+<div class="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer focus:ring-0" id="discount-toggle" name="discount-toggle" onchange="toggleDiscountField()" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-4 rounded-full bg-outline-variant/30 cursor-pointer" for="discount-toggle"></label>
+</div>
+</div>
+<div class="hidden flex gap-4 animate-in fade-in slide-in-from-top-2 duration-300 bg-white/50 p-4 border border-outline-variant/10" id="discount-field">
+<div class="flex-grow">
+<label class="block text-[9px] uppercase tracking-widest text-outline mb-1">Value</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-1" placeholder="Amount" type="number"/>
+</div>
+<div class="w-24">
+<label class="block text-[9px] uppercase tracking-widest text-outline mb-1">Unit</label>
+<select class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-1">
+<option value="percent">%</option>
+<option value="fixed">USD</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Dynamic Inventory Management -->
+<div class="p-8 border border-outline-variant/15 space-y-8">
+<h3 class="font-headline text-lg font-bold">Sizes &amp; Inventory</h3>
+<!-- Apparel View (Default) -->
+<div class="space-y-6" id="inventory-apparel">
+<div class="grid grid-cols-5 gap-2">
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-tight uppercase text-outline-variant block text-center">XS</label>
+<input class="w-full bg-transparent border border-outline-variant/30 focus:border-secondary focus:ring-0 text-xs text-center py-2" placeholder="0" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-tight uppercase text-outline-variant block text-center">S</label>
+<input class="w-full bg-transparent border border-outline-variant/30 focus:border-secondary focus:ring-0 text-xs text-center py-2" placeholder="0" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-tight uppercase text-outline-variant block text-center">M</label>
+<input class="w-full bg-transparent border border-outline-variant/30 focus:border-secondary focus:ring-0 text-xs text-center py-2" placeholder="0" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-tight uppercase text-outline-variant block text-center">L</label>
+<input class="w-full bg-transparent border border-outline-variant/30 focus:border-secondary focus:ring-0 text-xs text-center py-2" placeholder="0" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-tight uppercase text-outline-variant block text-center">XL</label>
+<input class="w-full bg-transparent border border-outline-variant/30 focus:border-secondary focus:ring-0 text-xs text-center py-2" placeholder="0" type="number"/>
+</div>
+</div>
+</div>
+<!-- Unstitched / Fabric View -->
+<div class="hidden space-y-6" id="inventory-fabric">
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Length per Unit (Meters)</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2" placeholder="e.g. 5.5" step="0.1" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Total Stock (Meters)</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2" placeholder="e.g. 100" type="number"/>
+</div>
+</div>
+<p class="text-[10px] text-outline/60 italic">Curation Note: System will automatically calculate available units based on total stock and unit length.</p>
+</div>
+<!-- Standard Inventory View (Home/Objects/Etc) -->
+<div class="hidden space-y-6" id="inventory-home">
+<div class="flex justify-between items-center bg-surface-container-low p-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Total Quantity in Stock</label>
+<div class="flex items-center gap-4">
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant/30 text-outline-variant hover:border-secondary hover:text-secondary transition-colors" onclick="adjustQty(-1)">-</button>
+<span class="font-bold w-8 text-center" id="home-qty">0</span>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant/30 text-outline-variant hover:border-secondary hover:text-secondary transition-colors" onclick="adjustQty(1)">+</button>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<label class="font-label text-[10px] tracking-widest uppercase text-outline-variant">Global SKU</label>
+<input class="w-full bg-transparent border-t-0 border-l-0 border-r-0 border-b border-outline-variant/40 focus:border-secondary focus:ring-0 text-sm py-2" placeholder="HMY-2024-XXXX" type="text"/>
+</div>
+<div class="pt-4 border-t border-outline-variant/10">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-outline-variant/40 text-secondary focus:ring-0" type="checkbox"/>
+<span class="font-label text-[10px] tracking-widest uppercase text-outline group-hover:text-primary transition-colors">Continue selling when out of stock</span>
+</label>
+</div>
+</div>
+<!-- Marketing Preview Card -->
+<div class="relative group cursor-help">
+<div class="aspect-[4/5] bg-surface overflow-hidden">
+<img alt="" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEUXhSw5JeEe8sVoe61fnsa32xv9YC159RHWh7FLMeW0bIgc67zex9bGIBXtA22cFl0JB7GtLzSEw2GVCslLaR1t3RKfMC_mR6P-Ir0wBltr0NotvM-W_w9dLgYMnYktERQDUz04mDrjI_fqWv4N8_uekgLUxi0RSVTjTr9HDzLeXWzdAjsePWd_YvT9LDdNgCDvN3nw6xwsSf4npk0wNO3AKvnGPZCj69kveqqqU8_4tc8yQXNWXH7y-5BnsCH4525kTs7Jw6cNE"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex flex-col justify-end p-6">
+<p class="font-label text-[10px] tracking-[0.3em] uppercase text-on-background/60 mb-2">Market Preview</p>
+<h4 class="font-headline text-lg font-bold">New Arrival Display</h4>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="mt-24 pt-12 border-t border-outline-variant/10 grid grid-cols-1 md:grid-cols-4 gap-12 text-outline-variant">
+<div class="col-span-2">
+<p class="font-headline text-lg font-bold text-on-surface mb-4">HMY Atelier</p>
+<p class="font-body text-xs leading-relaxed max-w-sm">Every addition to the collection must uphold the standards of craftsmanship and silent luxury that define the HMY name.</p>
+</div>
+<div>
+<h5 class="font-label text-[10px] tracking-widest uppercase text-on-surface mb-4">Support</h5>
+<ul class="space-y-2 text-[10px] tracking-widest uppercase">
+<li><a class="hover:text-secondary transition-colors" href="#">Documentation</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Compliance</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Global Logistics</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label text-[10px] tracking-widest uppercase text-on-surface mb-4">Account</h5>
+<p class="text-[10px] tracking-widest uppercase">© 2024 HMY Atelier. All Rights Reserved.</p>
+</div>
+</footer>
+</main>
+</div>
+<script>
+    function updateInventoryUI() {
+        const type = document.getElementById('product-type-select').value;
+        const apparelSection = document.getElementById('inventory-apparel');
+        const fabricSection = document.getElementById('inventory-fabric');
+        const homeSection = document.getElementById('inventory-home');
+        
+        // Hide all
+        apparelSection.classList.add('hidden');
+        fabricSection.classList.add('hidden');
+        homeSection.classList.add('hidden');
+        
+        // Show relevant
+        if (type === 'apparel') {
+            apparelSection.classList.remove('hidden');
+        } else if (type === 'fabric') {
+            fabricSection.classList.remove('hidden');
+        } else {
+            homeSection.classList.remove('hidden');
+        }
+    }
+
+    function toggleDiscountField() {
+        const toggle = document.getElementById('discount-toggle');
+        const field = document.getElementById('discount-field');
+        if (toggle.checked) {
+            field.classList.remove('hidden');
+        } else {
+            field.classList.add('hidden');
+        }
+    }
+
+    let qty = 0;
+    function adjustQty(amount) {
+        qty = Math.max(0, qty + amount);
+        document.getElementById('home-qty').innerText = qty;
+    }
+</script>
+</body></html>

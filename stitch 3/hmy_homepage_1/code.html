@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HMY Atelier | Digital Boutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#403f3f",
+                    "surface-container-low": "#f2f4f4",
+                    "tertiary-dim": "#535353",
+                    "surface-container": "#ebeeef",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "secondary-dim": "#674f30",
+                    "on-surface-variant": "#5a6061",
+                    "tertiary-fixed": "#f5f3f3",
+                    "tertiary": "#5f5f5f",
+                    "primary-dim": "#535252",
+                    "on-tertiary-fixed": "#494a4a",
+                    "on-secondary-container": "#654d2f",
+                    "on-secondary-fixed": "#513b1e",
+                    "inverse-surface": "#0c0f0f",
+                    "surface": "#f9f9f9",
+                    "on-secondary-fixed-variant": "#705738",
+                    "secondary-fixed": "#ffddb6",
+                    "primary-container": "#e5e2e1",
+                    "primary-fixed-dim": "#d6d4d3",
+                    "outline-variant": "#adb3b4",
+                    "error-dim": "#4e0309",
+                    "surface-bright": "#f9f9f9",
+                    "surface-dim": "#d4dbdd",
+                    "on-error": "#fff7f6",
+                    "inverse-primary": "#ffffff",
+                    "surface-container-highest": "#dde4e5",
+                    "primary": "#5f5e5e",
+                    "secondary-fixed-dim": "#f1cfa8",
+                    "on-primary": "#faf7f6",
+                    "primary-fixed": "#e5e2e1",
+                    "on-primary-container": "#525151",
+                    "on-background": "#2d3435",
+                    "on-tertiary": "#fbf8f8",
+                    "on-tertiary-container": "#5c5c5c",
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-fixed-variant": "#666666",
+                    "on-secondary": "#fff7f3",
+                    "tertiary-container": "#f5f3f3",
+                    "secondary-container": "#ffddb6",
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-error-container": "#752121",
+                    "surface-variant": "#dde4e5",
+                    "tertiary-fixed-dim": "#e7e5e4",
+                    "surface-container-high": "#e4e9ea",
+                    "error-container": "#fe8983",
+                    "error": "#9f403d",
+                    "outline": "#757c7d",
+                    "on-surface": "#2d3435",
+                    "background": "#f9f9f9",
+                    "secondary": "#745b3b",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #f9f9f9; color: #2d3435; margin: 0; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-md dark:bg-[#1A1A1A]/80 flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+<div class="flex items-center gap-8">
+<div class="flex items-center">
+<img alt="HMY Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzFd9v0gur86b5YYRVkHqjWz9NxKSCr0iusLtg7-dPqGb8v9SFFp2_uP06wxtP5875x12r5aHhodMguZ6Vrco6AuKa0kavGoiZoPdlC5tV1efdqm2h2vySZpvVXv7gRP9gr2Rfcg1tM7lX4ayRDK-g-ls2rc9CxfdRmrM6ZRauQ4bI5zVkR2FQKCpb3H7w8cAsAp7RZofD7RwjOhHWY4up_j6SpzJ8UNNqpxMLpAP5WmAH2AB1RC4DlgkxkXpZ0m6zAjLbxGcrt2Q"/>
+<span class="ml-2 font-['Noto_Serif'] text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9]">HMY</span>
+</div>
+<div class="hidden md:flex items-center space-x-8 font-['Noto_Serif'] text-base tracking-tight text-[#5f5e5e] dark:text-[#f2f4f4]">
+<a class="text-[#745b3b] border-b-2 border-[#745b3b] pb-1" href="#">Home</a>
+<a class="text-[#2d3435] dark:text-[#adb3b4] hover:text-[#745b3b] transition-colors duration-400" href="#">Men</a>
+<a class="text-[#2d3435] dark:text-[#adb3b4] hover:text-[#745b3b] transition-colors duration-400" href="#">Women</a>
+<a class="text-[#2d3435] dark:text-[#adb3b4] hover:text-[#745b3b] transition-colors duration-400" href="#">Kids</a>
+<a class="text-[#2d3435] dark:text-[#adb3b4] hover:text-[#745b3b] transition-colors duration-400" href="#">Baby</a>
+</div>
+</div>
+<div class="flex items-center space-x-6 text-[#2d3435] dark:text-[#f2f4f4]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b] transition-colors" data-icon="search">search</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b] transition-colors" data-icon="person">person</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b] transition-colors" data-icon="shopping_cart">shopping_cart</span>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section: Winter Elegance -->
+<section class="relative h-[921px] w-full overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 z-0">
+<img alt="Winter Elegance Collection" class="w-full h-full object-cover grayscale-[20%]" data-alt="high-end cinematic lifestyle shot of a woman in a luxury wool overcoat standing in a snowy architectural courtyard with soft winter sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdQUGoc4N_HBrIs_6y31ZYAZD-YH2sBtI4voVqgJ1UvVBPqYmmvZk8iACBsAG3BsrhNGvVkXs97R22OZjT0QANScE9WjBH-pZNrIjWdaqLV0BVfFgaDJ51StHb71OiB62XGUJCCXak2i8iKoQcRu7Ui5HNCPB7SOAFRZrJhAXHEWZTKS_ze49EoN-fZEtUtoko9_Po-Qw_NFnJiNATxOqXol19DDyrP7UyouV2ADmqEXw2lIDnDBSK_-a9npSNmATbGCtAb_VRR2w"/>
+<div class="absolute inset-0 bg-on-surface/10"></div>
+</div>
+<div class="relative z-10 text-center px-4">
+<p class="font-label text-sm tracking-[0.3em] uppercase text-surface mb-4">The New Season</p>
+<h1 class="font-headline text-5xl md:text-8xl font-bold text-surface tracking-tighter mb-8 max-w-4xl mx-auto">Winter Elegance</h1>
+<div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+<button class="bg-primary hover:bg-primary-dim text-on-primary px-10 py-4 font-label text-xs tracking-widest uppercase transition-all duration-400">Shop Collection</button>
+<button class="bg-surface/10 backdrop-blur-md border border-outline-variant/30 text-surface px-10 py-4 font-label text-xs tracking-widest uppercase hover:bg-surface hover:text-on-surface transition-all duration-400">View Lookbook</button>
+</div>
+</div>
+</section>
+<!-- Category Grid: Bento Layout -->
+<section class="max-w-[1400px] mx-auto py-24 px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-[800px]">
+<!-- Women (Large Focus) -->
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-surface-container">
+<img alt="Women's Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Fashion portrait of a woman in minimalist high-end silk apparel against a neutral architectural background, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXEtSogJwbK8_8o7SFLummFMOHio4cVSL1EEzk3cX0W0CY3fV3vrbBY0DM4r6mMXVwKc8FtaqE3enntYlnpZ2s4ZafRL81m5cjlEnS5U5o6Yvud0sLtjkoptPlMqbGyVCkU1HbgdcRX_-7mGN2MNy9Porj23VfB1B08Iwo4Vx4WnQeBQL63261fmeU0gAORUnDCTlBm-XiDSYr5o3-uAnZWif2gzGhqM3xtL9YruAE19LbLblMu9pSNvWGjb0fM0n94oj93eULXbo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent flex flex-col justify-end p-10">
+<h3 class="font-headline text-3xl text-surface mb-2">Women</h3>
+<a class="font-label text-xs text-surface underline underline-offset-8 tracking-widest uppercase" href="#">Explore Shop</a>
+</div>
+</div>
+<!-- Men -->
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden bg-surface-container">
+<img alt="Men's Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Sophisticated man wearing a tailored charcoal suit and overcoat walking in a modern urban setting, natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQEFSov4i-1cRp0_ZaZ_rEnNakFJjFiV5Ro8FsDrbLGaXNHOx-0jqnTnbXkNBknJU2FekX8P1ELvOhw3UnecMrGhCsVx8QemOnLGcIAL2r0wJ6MSs4ywgaD6XGD2s6s_fp8H0J91T-TDXgwWFIsp00-JDJGR5zi5J8GD4X5XecMakakiYfqtkyFapZpM18ouJW88QapIR2z3ZqGLVGam5XKtPzvrrYhG5w2aV0b2bXgPaa_KHaZw-SorIkyWmK9J6VOauqjqwYk2Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent flex flex-col justify-end p-8">
+<h3 class="font-headline text-2xl text-surface">Men</h3>
+</div>
+</div>
+<!-- Home -->
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden bg-surface-container">
+<img alt="Home Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Interior shot of luxury beige cashmere blankets and linen bedding neatly folded on a minimalist wooden bed frame, morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIVYLu4PMtiUw9077ifsgw2mDhB_f8MFNpbjqcaz_2OQ-zwl2SV0_W69bMbW0ORP4RVcM84JlX9ApVeg0lAuo9MJXsZfAGMnYX_f8KbCvlhhgtkKEpesBTha2xvwWGYz5oWPZr0rPyRZ7PPfqlsFHP5_O8n9kvAv-AMCqiubssm2ld94FVpY7mBKRMT-ggtP7bOw_H1AqwUpVOnUNqJl8c6dwncOtAgDwYCvLMmEUU-EVtfth5A7bQzsYT_YJZNTY7Z-dTQnZWeR0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent flex flex-col justify-end p-8">
+<h3 class="font-headline text-2xl text-surface">Home</h3>
+</div>
+</div>
+<!-- Kids & Baby (Split bottom right) -->
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden bg-surface-container">
+<img alt="Kids Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Two children in high-quality organic cotton knitwear playing in a bright airy studio, warm aesthetic colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD86ouzHpARanWo97D2fEX290wEYHXRz4lCBeuyLocCIt33zvPhVQew-EMk2JUPsl0IFgsPTuiPh2u30VRw3EhXjnt8cT587WUeayoN0ZVPj9y2-a5L1MOejew-Os1HjNPVWvrE6SU_y5MldySCJF55rFswW_3QOjIqwcpaIuG-t5lZu5JdnGnmWoBgyaT002VBXgmD7Zo2ysuqfkNFTZumpxLYIikiFdfqI6Vlpp2eKMUrxiSlPN-uZQKJSrS67JeCQFja8nfA4P4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent flex flex-col justify-end p-8">
+<h3 class="font-headline text-2xl text-surface">Kids</h3>
+</div>
+</div>
+<div class="md:col-span-1 md:row-span-1 relative group overflow-hidden bg-surface-container">
+<img alt="Baby Collection" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Soft close-up of baby organic cotton onesie and tiny leather shoes on a white sheepskin rug, gentle lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoLXXZewiWUj4QiRqwuZwJ0T0LDQxTbVqs7dAR8t3hi34uxoFgtVQ0hDipF1VSg6WUvuKvoisRMNDK56wh-Lfjve7q2jbPdTpslL0JqWdFiLiTKdQDdMt4ryUmaiZYR0_9xNllaJfqaRp0sxfQ1_XOMHZ0rU0uV8Tc-eTZZq4BtBetdlFD_g0wMuTE02plTaCD17Ah7Tmk3pP9uGYujrcIT5l98aGpBNYt17hYdjCAO9EzGg8XZNR_VwnCywfaxt8oWUzXpic2nL4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent flex flex-col justify-end p-8">
+<h3 class="font-headline text-2xl text-surface">Baby</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- New Arrivals: Unstitched & Stitched -->
+<section class="bg-surface-container-low py-24">
+<div class="max-w-[1400px] mx-auto px-8">
+<div class="flex justify-between items-end mb-16">
+<div>
+<p class="font-label text-xs tracking-[0.2em] uppercase text-secondary mb-2">The Latest Edit</p>
+<h2 class="font-headline text-4xl font-bold tracking-tight">New Arrivals</h2>
+</div>
+<div class="flex space-x-4">
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant/30 text-primary hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant/30 text-primary hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Product 1 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden mb-6 aspect-[3/4]">
+<img alt="Unstitched Fabric" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up detail of intricate embroidered silk fabric in royal blue and gold, traditional atelier style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_x6WrjwR-Eiq2eqCTR5pfpdAqgHMukjkXrKj5i4rRwXHoBRuUBzHm6jRwgypoTGZbZuTJeiy44wVI3ZBSUc3qDOe9dpLtV6qHAjpoDXxvBgOicwigBwC6Xdh3jyzYr80MVa2iHM0hD87ekNyU3v2OhZ8XLY6vn96J8ytojlKmI1OF6yLGsAizpLCB9pCxsa5ZkV_VSFFt0_4NxixWmqFRTT_51vpCu8JRLWpRXk2YVT1L1AS0TdOZ8lGGujgQaGps-_gQeNOp3oA"/>
+<span class="absolute top-4 left-4 bg-secondary text-surface text-[10px] font-label px-3 py-1 tracking-widest uppercase">New Arrival</span>
+</div>
+<h4 class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">Unstitched Collection</h4>
+<h3 class="font-body text-base font-semibold mb-2">Midnight Bloom Silk Suite</h3>
+<p class="font-body text-secondary">$245.00</p>
+</div>
+<!-- Product 2 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden mb-6 aspect-[3/4]">
+<img alt="Stitched Dress" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Elegant ivory white stitched cotton dress with delicate lace detailing on a mannequin in a sunlit boutique" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCelnc-7K28Oq50eVOBwLMKfpb3m7IIE395RyHiXO8TQzDWkFKNsOrkbQo102VOa5XWfa4LUW-jK3N5Gdbp9e0SNhjjxyVYSjpQKYip3X3iDfpqyIX5L80LvbWObb5_Ahc8cQMPTEyojvsaOUENfL6VZQrEJAeTmQ-eicisXMfMT_pX1AWBRHYh0l2bFDQoxjFdyfvQlzjeOQq96biF9TaAqQOuLDfaQ3D8gKUnv3Yp6jwKkc7MtixLmGzTf2VETBhK2_g4T3RANmc"/>
+</div>
+<h4 class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">Ready-to-Wear</h4>
+<h3 class="font-body text-base font-semibold mb-2">Ivory Heritage Cotton Set</h3>
+<p class="font-body text-secondary">$310.00</p>
+</div>
+<!-- Product 3 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden mb-6 aspect-[3/4]">
+<img alt="Men's Kurta" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Detail of a minimalist linen men's shirt in charcoal grey, high-end texture, macro shot of fabric" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMhlZ-ekgJ6-F3o6bCPcILSAH5RndRgbg9S2VPkw6PPFpOyLfONGul0Hx1qGGD7XL80AA4FE-mr7FvwgbdbDLygiefaQ16hzi_xfHLb0bUL_UUsxvXGjtcNLMLZGUKOM6HRgn5mmmJEQWTW4KYomJqG5m9jiaiU0oAfhLVk8fbg6OPn_4M9q5fJBWYSDzqeWX4MtzhFwqYKIxE_RaRgsKcCmtoWKXPy-JkZiHmwR_p7rO0-504qmrX97kxzOaVOzQ5C9Txw-bxtSk"/>
+</div>
+<h4 class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">Men's Premium</h4>
+<h3 class="font-body text-base font-semibold mb-2">Signature Linen Kurta</h3>
+<p class="font-body text-secondary">$185.00</p>
+</div>
+<!-- Product 4 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden mb-6 aspect-[3/4]">
+<img alt="Unstitched Lawn" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Soft pink floral printed unstitched lawn fabric draped elegantly over a wooden ladder, aesthetic studio setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQhGPY8ogx4-C3w5dfnLCU0-eZwtRM4CLy55o4TeXvG6Msm8WUciUXC-QpKklXN2VQUnvUzlXVmBYV2zBvxCIQP2PEy4rPpcVeIUkv5LldaWAjX07AT0MI7eug3NvRE6Hd3fh2Dif_3Nsq9ZgQWqmYd_3sUbvJdvoL_kSEqS9TfznPRDCNmxRuRqIwnMeoYR-dYisD7u-PikkbFy-oN-y554ecREg6Ha8WbSf6todatSMGOgCNveBUPcDyeAFa_BkoVCAvG2TXC6Y"/>
+</div>
+<h4 class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">Seasonal Edit</h4>
+<h3 class="font-body text-base font-semibold mb-2">Peony Garden Unstitched Lawn</h3>
+<p class="font-body text-secondary">$120.00</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Special Deals Section -->
+<section class="py-24 max-w-[1400px] mx-auto px-8">
+<div class="bg-primary flex flex-col md:flex-row h-auto md:h-[500px]">
+<div class="flex-1 p-16 flex flex-col justify-center">
+<p class="font-label text-xs tracking-[0.3em] uppercase text-on-primary/60 mb-6">Exclusive Offer</p>
+<h2 class="font-headline text-4xl md:text-6xl text-on-primary mb-6 leading-tight">Artisan Bundle <br/>Event</h2>
+<p class="font-body text-on-primary/80 text-lg mb-10 max-w-md">Unlock a 20% privilege reduction when you curate a personalized three-piece ensemble from our Heritage Collection.</p>
+<div class="flex items-center space-x-8">
+<button class="bg-secondary text-on-secondary px-10 py-4 font-label text-xs tracking-widest uppercase hover:bg-secondary-dim transition-all">Shop The Offer</button>
+<span class="font-label text-xs text-on-primary tracking-widest uppercase border-b border-on-primary/30 pb-2 cursor-pointer">View Terms</span>
+</div>
+</div>
+<div class="flex-1 relative overflow-hidden">
+<img alt="Special Deals" class="w-full h-full object-cover grayscale" data-alt="Artistic composition of rolled high-quality fabric bolts in various neutral tones, elegant studio lighting with shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxqhc5u0nyIKcOamCNbKqXu6zNTqcWGM4unBqGtVJW5fqYfjtldIDyYqQUTlklkbNqTpeIGgaUQEdqWAZp5hy2hC5R_FYEXRLK-4Nr06eZKP3J3hONLGQQ-bRtB7x3gCAUYdfI4NiNAh24YiTTgFegh8B8zd9FUmgUYyEWvHRWUPO2Uny2prR62zOsRF2uKAjQBZAcqRm6n5CS1C5HMvcyNzPRjqJ6DIwHXdox6r4ieFBe5I8SElavwmQj22jWXszus8gRI8EzK7M"/>
+<div class="absolute inset-0 bg-secondary/10 mix-blend-multiply"></div>
+</div>
+</div>
+</section>
+<!-- Newsletter Subscription -->
+<section class="bg-surface-container-high py-20">
+<div class="max-w-4xl mx-auto px-8 text-center">
+<h3 class="font-headline text-3xl mb-4">Join the Atelier</h3>
+<p class="font-body text-on-surface-variant mb-10">Receive early access to seasonal launches, private events, and editorial inspiration.</p>
+<form class="flex flex-col md:flex-row gap-0 max-w-2xl mx-auto">
+<input class="flex-grow bg-surface border-b border-outline-variant/40 focus:border-secondary transition-colors px-6 py-4 outline-none placeholder:text-on-surface-variant/50 placeholder:font-label placeholder:text-xs placeholder:tracking-widest placeholder:uppercase" placeholder="Enter your email address" type="email"/>
+<button class="bg-on-surface text-surface px-10 py-4 font-label text-xs tracking-widest uppercase hover:bg-primary transition-all">Subscribe</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1A1A1A] w-full mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full">
+<!-- Brand Column -->
+<div class="space-y-6">
+<div class="flex items-center">
+<img alt="HMY Logo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2ecV6BFiATtUpudccAP-R4ZNeICM3GE6TUyRBNPk0TOUIcMTw3OZyRcaczBF7dYDGIdKoqaiQfDAyJ2_ee1W5Y1rjOor9IiSpfOH-1EFUQc7otKgAmEZO2c_JEvPSCEAOZ9ViWO8TR7jWKgVlDKhLnrkwajJR2c_cAxtaaL2hSW_Wjih0q_SH80L6C90JZ6rpS8fPPB5SuelB3zBhllHM1WtA3kz8ELN5ghWi-mbA2jKHx0trMAJFCGeXdYS5ekkyfYJl3UE04yA"/>
+<span class="ml-2 font-['Noto_Serif'] text-lg font-bold text-[#2d3435]">HMY Atelier</span>
+</div>
+<p class="font-['Manrope'] text-xs text-[#5f5e5e] dark:text-[#adb3b4] leading-relaxed uppercase tracking-widest">Crafting timeless elegance through contemporary silhouettes and heritage craftsmanship.</p>
+<div class="flex space-x-4 text-[#5f5e5e] dark:text-[#f2f4f4]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b]">language</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b]">share</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#745b3b]">mail</span>
+</div>
+</div>
+<!-- Shop -->
+<div>
+<h4 class="font-['Manrope'] text-xs font-bold tracking-[0.1em] uppercase text-[#2d3435] dark:text-[#f2f4f4] mb-8">Collection</h4>
+<ul class="space-y-4 font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4]">
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Men's Edit</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Women's Boutique</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Home Essentials</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Bespoke Services</a></li>
+</ul>
+</div>
+<!-- Assistance -->
+<div>
+<h4 class="font-['Manrope'] text-xs font-bold tracking-[0.1em] uppercase text-[#2d3435] dark:text-[#f2f4f4] mb-8">Client Service</h4>
+<ul class="space-y-4 font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4]">
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Customer Service</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Size Guide</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Contact Us</a></li>
+</ul>
+</div>
+<!-- Info -->
+<div>
+<h4 class="font-['Manrope'] text-xs font-bold tracking-[0.1em] uppercase text-[#2d3435] dark:text-[#f2f4f4] mb-8">Legal</h4>
+<ul class="space-y-4 font-['Manrope'] text-xs tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4]">
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Terms of Use</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">Cookie Preferences</a></li>
+<li><a class="hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-400" href="#">About HMY</a></li>
+</ul>
+</div>
+</div>
+<div class="px-12 py-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-['Manrope'] text-[10px] tracking-[0.05em] uppercase text-[#5f5e5e] dark:text-[#adb3b4]">© 2024 HMY Atelier. All Rights Reserved.</span>
+<div class="flex items-center space-x-6 grayscale opacity-50">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span class="material-symbols-outlined text-lg">credit_card</span>
+<span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+</div>
+</div>
+</footer>
+</body></html>
