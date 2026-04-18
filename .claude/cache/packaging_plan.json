@@ -5,7 +5,7 @@
   "target_runtime": "node",
   "target_framework": "nextjs",
   "selected_images": {
-    "application": "node:20-bookworm-slim",
+    "application": "",
     "services": {
       "postgres": "postgres:16"
     }
@@ -39,7 +39,7 @@
       {
         "name": "postgres",
         "type": "database",
-        "image_hint": "postgres:16"
+        "image_hint": ""
       }
     ],
     "networks": [

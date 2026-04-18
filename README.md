@@ -35,13 +35,18 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+
 with ollama
 ANTHROPIC_BASE_URL=http://localhost:11434/v1 ANTHROPIC_API_KEY=ollama claude
 ANTHROPIC_AUTH_TOKEN=ollama ANTHROPIC_BASE_URL=http://localhost:11434/v1 ANTHROPIC_API_KEY=ollama claude --model qwen2.5-coder:14b
-!claude mcp add docker-hub -- node /Users/touqeershah/Documents/HMY/docker-hub-mcp-server/hub-mcp/dist/index.js
+!claude mcp add docker-hub -- node ./home/ubuntu/HMY/docker-hub-mcp-server/hub-mcp/dist/index.js
+
+claude mcp remove docker-hub
+claude mcp add --transport stdio docker-hub -- \
+  node /home/ubuntu/HMY/docker-hub-mcp-server/hub-mcp/dist/index.js --transport=stdio
 
 claude mcp add --transport stdio docker-hub -- \
-  node /Users/touqeershah/Documents/HMY/docker-hub-mcp-server/hub-mcp/dist/index.js --transport=stdio
+  node ./docker-hub-mcp-server/hub-mcp/dist/index.js --transport=stdio
 https://github.com/docker/hub-mcp
 
   claude mcp remove docker-hub
@@ -54,7 +59,7 @@ npm run build
 ls -l dist/index.js
 
 
-
+dockerize this project
 
 Or add it manually to settings.
 
