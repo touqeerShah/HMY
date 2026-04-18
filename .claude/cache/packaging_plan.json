@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "target_id": ".",
+  "target_path": ".",
+  "target_runtime": "node",
+  "target_framework": "nextjs",
+  "selected_images": {
+    "application": "node:20-bookworm-slim",
+    "services": {
+      "postgres": "postgres:16"
+    }
+  },
+  "closure_nodes": [
+    ".",
+    "infra/postgres"
+  ],
+  "artifacts_to_generate": [
+    "Dockerfile",
+    ".dockerignore",
+    "compose.yml",
+    "Makefile"
+  ],
+  "compose_services": [
+    "app",
+    "postgres"
+  ],
+  "entrypoint_required": false,
+  "makefile_required": true,
+  "port": 3000,
+  "run_command": "next start",
+  "build_command": "next build",
+  "app_type": "web",
+  "compose_plan": {
+    "required_services": [
+      {
+        "name": "app",
+        "type": "application"
+      },
+      {
+        "name": "postgres",
+        "type": "database",
+        "image_hint": "postgres:16"
+      }
+    ],
+    "networks": [
+      "default"
+    ],
+    "volumes": [
+      "postgres_data"
+    ],
+    "depends_on": [
+      {
+        "service": "app",
+        "requires": [
+          "postgres"
+        ]
+      }
+    ]
+  }
+}

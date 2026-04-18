@@ -1,0 +1,25 @@
+{
+  "schema_version": "2.1",
+  "generated_at": "2026-04-16T20:25:52Z",
+  "repo": {
+    "name": "bootstrap",
+    "root": ".",
+    "topology": "single-app",
+    "monorepo": false,
+    "workspace_tool": null
+  },
+  "runtimes": [
+    {
+      "family": "node",
+      "versions": []
+    }
+  ],
+  "apps": [],
+  "packages": [],
+  "infra": [],
+  "container_defaults": {
+    "prefer_non_root": true,
+    "pin_major_versions": true,
+    "avoid_latest": true
+  }
+}

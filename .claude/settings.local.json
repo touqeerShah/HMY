@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "docker|dockerize|compose|container",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/refresh_project_facts.sh ."
+          }
+        ]
+      }
+    ]
+  }
+}

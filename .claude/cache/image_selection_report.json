@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "target_id": ".",
+  "mcp_required": true,
+  "mcp_used": true,
+  "mcp_server": "docker-hub",
+  "application_image": {
+    "selected": "node:20-bookworm-slim",
+    "source": "docker-hub-mcp",
+    "alternatives_considered": [
+      "node:20-slim",
+      "node:20-alpine"
+    ]
+  },
+  "service_images": [
+    {
+      "service": "postgres",
+      "selected": "postgres:16",
+      "source": "docker-hub-mcp"
+    }
+  ],
+  "fallback_used": false,
+  "reasoning": "Selected Node 20 bookworm-slim for Next.js production compatibility and official Postgres 16 for compose."
+}

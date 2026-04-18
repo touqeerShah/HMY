@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "strategy": "hash-selected-files",
+  "files": [
+    ".env.example",
+    "package-lock.json",
+    "package.json"
+  ],
+  "hash": "d1c02c778dab903217c5a0e8148b9e48f9ee4167fbdaad666540d49a3fe55b09"
+}
