@@ -1003,4 +1003,4 @@ more languages
 more repo intelligence
 custom MCP server
 
-You already have enough to start the part you care about.
+You already have enough to start the part you care about.¡

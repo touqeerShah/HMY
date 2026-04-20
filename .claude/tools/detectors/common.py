@@ -51,3 +51,47 @@ def detect_env_keys(text: str) -> list[str]:
         if key:
             keys.append(key)
     return sorted(set(keys))
+
+
+def is_nonempty_dict(value: Any) -> bool:
+    return isinstance(value, dict) and bool(value)
+
+
+def build_error(
+    code: str,
+    message: str,
+    recoverable: bool,
+    suggested_action: str,
+    details: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    error = {
+        "code": code,
+        "message": message,
+        "recoverable": recoverable,
+        "suggested_action": suggested_action,
+    }
+    if details:
+        error["details"] = details
+    return error
+
+
+def with_error_state(
+    plan: dict[str, Any],
+    *,
+    state: str,
+    code: str,
+    message: str,
+    recoverable: bool,
+    suggested_action: str,
+    details: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    updated = dict(plan or {})
+    updated["state"] = state
+    updated["error"] = build_error(
+        code=code,
+        message=message,
+        recoverable=recoverable,
+        suggested_action=suggested_action,
+        details=details,
+    )
+    return updated

@@ -5,17 +5,17 @@
   "mcp_used": true,
   "mcp_server": "docker-hub",
   "application_image": {
-    "selected": "node:20-bookworm-slim",
+    "selected": "",
     "source": "docker-hub-mcp",
     "alternatives_considered": [
-      "node:20-slim",
-      "node:20-alpine"
+      "",
+      ""
     ]
   },
   "service_images": [
     {
       "service": "postgres",
-      "selected": "postgres:16",
+      "selected": "",
       "source": "docker-hub-mcp"
     }
   ],

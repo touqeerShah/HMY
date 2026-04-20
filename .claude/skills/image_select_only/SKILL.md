@@ -1,11 +1,25 @@
 ---
 name: image_select_only
-description: Refresh only image_selection_report.json for the selected packaging target using cached structure and docker-hub MCP.
+description: Refresh only image_selection_report.json for the selected packaging target using cached structure, draft/resolved packaging state, and docker-hub MCP.
 ---
 
 # Image Select Only
 
 Refresh or update only `.claude/cache/image_selection_report.json` for the selected target.
+
+## CRITICAL — read cache first
+
+Before anything else, read these exact cache files first:
+
+```bash
+cat .claude/cache/project_facts.json
+cat .claude/cache/packaging_plan.json
+cat .claude/cache/image_selection_report.json
+```
+
+If a required cache file is missing, run bootstrap and re-read them.
+
+---
 
 ## Read first
 
@@ -22,19 +36,17 @@ Read when present:
 - `.claude/cache/project_chunks.jsonl`
 - `.claude/cache/project_fingerprint.json`
 
+---
+
 ## Goal
 
 Generate or refresh only:
 
 - `.claude/cache/image_selection_report.json`
 
-Do not generate:
+Do not generate Docker artifact files.
 
-- `Dockerfile`
-- `.dockerignore`
-- `compose.yml`
-- `Makefile`
-- `docker/entrypoint.sh`
+---
 
 ## Required behavior
 
@@ -47,11 +59,33 @@ Do not generate:
 5. Write `.claude/cache/image_selection_report.json` as an actual file.
 6. Verify the file exists after writing.
 
+---
+
+## Draft vs resolved semantics
+
+The image report must distinguish between support and activation.
+
+It should report:
+
+- `roles_supported`
+- `workflow_modes_supported`
+
+And, if a resolved plan exists:
+
+- `roles_active`
+- `workflow_modes_active`
+
+Do not imply activation from support alone.
+
+---
+
 ## Target rules
 
 - If exactly one dockerizable target exists, select it automatically.
 - If multiple dockerizable targets exist, infer the target from the user request if possible.
 - Ask only if the target is genuinely ambiguous.
+
+---
 
 ## Image rules
 
@@ -68,14 +102,21 @@ Do not generate:
 - Select only services actually required by the target.
 - Do not invent extra services.
 
+---
+
 ## Required report fields
 
-The generated `.claude/cache/image_selection_report.json` must contain:
+The generated `.claude/cache/image_selection_report.json` must contain support-aware fields such as:
 
 - `target_id`
-- `mcp_required`
+- `mcp_preferred`
 - `mcp_used`
 - `mcp_server`
+- `roles_supported`
+- `roles_active`
+- `workflow_modes_supported`
+- `workflow_modes_active`
+- `base_image_role`
 - `application_image`
 - `service_images`
 - `fallback_used`
@@ -88,6 +129,8 @@ If MCP is unavailable:
 - use cached candidates or target hints
 - still write the report
 
+---
+
 ## Output behavior
 
 Return only:
@@ -97,12 +140,14 @@ Return only:
 3. `written_files`
 4. `short_reasoning`
 
+---
+
 ## Forbidden behavior
 
 Do not:
 
 - rescan the full repository when cache is usable
 - generate Docker artifacts
-- invent additional apps, services, or environments
+- invent additional apps, services, roles, or environments
 - silently skip MCP when image selection is required
 - print the report only in chat instead of writing the file
