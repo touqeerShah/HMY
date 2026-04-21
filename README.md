@@ -44,6 +44,7 @@ ANTHROPIC_AUTH_TOKEN=ollama ANTHROPIC_BASE_URL=http://localhost:11434/v1 ANTHROP
 claude mcp remove docker-hub
 claude mcp add --transport stdio docker-hub -- \
   node /home/ubuntu/HMY/docker-hub-mcp-server/hub-mcp/dist/index.js --transport=stdio
+claude mcp add --transport stdio docker-runtime -- node mcp/docker-runtime-server/dist/index.js
 
 claude mcp add --transport stdio docker-hub -- \
   node ./docker-hub-mcp-server/hub-mcp/dist/index.js --transport=stdio

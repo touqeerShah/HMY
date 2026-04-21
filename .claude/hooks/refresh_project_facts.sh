@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${1:-$(pwd)}"
+ROOT="${1:-.}"
+REQUEST="${2:-}"
+TARGET="${3:-}"
 
-mkdir -p "$ROOT/.claude/cache"
+cd "$ROOT"
 
-python3 "$ROOT/.claude/tools/project_detector.py" \
-  --root "$ROOT" \
-  --mode refresh
+python3 .claude/tools/project_detector.py --root "$(pwd)" --mode plan-packaging
+
+if [ -n "$TARGET" ]; then
+  python3 .claude/tools/project_detector.py \
+    --root "$(pwd)" \
+    --mode resolve-packaging \
+    --target "$TARGET" \
+    --request "$REQUEST"
+else
+  python3 .claude/tools/project_detector.py \
+    --root "$(pwd)" \
+    --mode resolve-packaging \
+    --request "$REQUEST"
+fi

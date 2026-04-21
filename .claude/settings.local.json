@@ -6,7 +6,27 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/refresh_project_facts.sh ."
+            "command": "bash .claude/hooks/project_bootstrap.sh ."
+          }
+        ]
+      },
+      {
+        "matcher": "docker|dockerize|compose|container|npm|pnpm|yarn|pytest|python|manage.py|celery|uvicorn|gunicorn",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/enforce_container_exec.sh \"$CLAUDE_TOOL_INPUT\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "write|edit|multiedit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/sync_runtime_state.sh ."
           }
         ]
       }

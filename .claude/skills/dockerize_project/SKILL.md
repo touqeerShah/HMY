@@ -1,11 +1,22 @@
 ---
 name: dockerize_project
-description: Orchestrate Docker packaging for the selected target using cached project structure, draft packaging plans, resolver-owned activation, and MCP-backed image selection.
+description: Orchestrate Docker packaging for the selected target using cached project structure, draft packaging plans, resolver-owned activation, MCP-backed image selection, and container-first runtime execution.
 ---
 
 # Dockerize Project
 
 Containerize the current repository by using cached project understanding, resolving the current user request into a concrete packaging plan, validating image choice through MCP, and generating only the resolved Docker artifacts.
+
+This skill follows a strict operating model:
+
+- Claude edits code in the real workspace.
+- Claude must not run application, test, or job commands directly on the host.
+- Runtime effects must happen inside containers.
+- Normal runtime execution goes through the `app` container.
+- Isolated execution goes through the `task-runner` container.
+- Observation must come back through mounted host-visible output dirs or runtime MCP log/output tools.
+
+---
 
 ## CRITICAL — do this first, nothing else
 
@@ -65,7 +76,7 @@ If the user only wants one artifact or one operation, prefer a focused skill:
 - `makefile_only`
 - `entrypoint_only`
 
-This skill must support the full resolver lifecycle, including isolated runtime behavior when the request justifies it.
+This skill must support the full resolver lifecycle and container-first runtime behavior.
 
 ---
 
@@ -89,6 +100,17 @@ Use `docker-hub` MCP as the source of truth for:
 - final application image selection
 - final service image selection
 - final task-runner image selection if separately planned
+
+Use the custom Docker runtime MCP as the source of truth for:
+
+- runtime execution
+- app container control
+- task-runner container control
+- logs
+- output retrieval
+- rebuild actions
+
+Use the runtime MCP tools exposed by the configured Docker runtime MCP server. Tool identifiers must match the actual registered MCP server name.
 
 Do not blindly trust old image selections stored in:
 
@@ -118,9 +140,13 @@ Rules:
 - do not activate roles from `suggested_roles`
 - only `resolved_plan` may drive actual artifact generation
 
+When present, use `resolved_plan.runtime_exec_role`, `resolved_plan.isolated_exec_role`, `resolved_plan.observability_enabled`, and `resolved_plan.runtime_tools` as the execution-routing source of truth.
+
+Do not improvise execution routing when the resolved plan already specifies it.
+
 ---
 
-## Packaging model
+## Packaging and execution model
 
 This system no longer assumes a single-container app flow.
 
@@ -152,6 +178,12 @@ It is used for isolated execution such as:
 - scraping
 - Google or third-party connected actions
 - Claude actions that should run inside Docker instead of on the host
+
+Runtime rule:
+
+- Claude may edit code in the workspace.
+- Claude must not run application, test, or job commands directly on the host.
+- Runtime effects must happen in containers.
 
 ---
 
@@ -212,90 +244,70 @@ Use `--target` when target selection is already known and necessary.
 
 ---
 
-## Target selection
+## Runtime execution requirement
 
-Read `.claude/cache/project_targets.json`.
+When the user wants runtime work, testing, jobs, or isolation:
 
-- If only one target exists, select it automatically.
-- Do not ask for confirmation in that case.
-- If multiple targets exist, choose the one matching the current draft or resolved plan if already specified.
-- Only ask the user when multiple valid targets remain materially ambiguous.
+- do not run those actions directly on the host
+- route normal runtime actions through the `app` container
+- route isolated or risky test or job actions through the `task-runner` container
+
+Examples that should be container-routed:
+
+- tests
+- app startup
+- build validation
+- migrations
+- cron-like jobs
+- integrations
+- scraping
+- tool actions that affect runtime state
+- risky or host-avoiding execution
+
+Use the runtime MCP or approved wrapper scripts to perform these actions.
+
+For isolated or risky runtime execution, delegate to the `container-exec` subagent. Do not handle those execution flows in the main agent unless the subagent is unavailable.
 
 ---
 
-## Artifact derivation rules
+## Runtime state awareness
 
-Artifact generation must be reproducible from `resolved_plan`.
+Before rerunning runtime work after edits, check runtime state if available.
 
-### Base artifacts
+If `.claude/cache/runtime_state.json` indicates:
 
-Always start from the minimal base set:
+- `rebuild_required: true` → rebuild before rerun
+- `restart_required: true` → restart or re-up containers before rerun
 
-- `Dockerfile`
-- `.dockerignore`
+Do not rerun stale containers blindly after dependency or runtime-config changes.
 
-Add only when justified:
+`.claude/cache/runtime_state.json` is runtime state, not a packaging artifact. It may be updated by hooks or runtime tooling but is not part of `resolved_plan.artifacts_to_generate`.
 
-- `Makefile`
-- `docker/entrypoint.sh`
+---
 
-### Compose derivation
+## Observation requirement
 
-If compose support exists:
+Container execution visibility is not implied by mode alone.
 
-- always include `compose.yml`
+If the user needs to inspect what happened inside the container, the resolved plan must explicitly enable an observation path such as:
 
-If `live-bind` is enabled:
+- mounted host-visible output dirs
+- command wrapper scripts that write output there
+- runtime MCP log/output tools
 
-- include `compose.live.yml`
-
-If `rebuild-image` is enabled:
-
-- include `compose.rebuild.yml`
-
-### Task-runner derivation
-
-If `task-runner` is active:
-
-- likely include task-runner wrapper scripts
-
-If `task-runner` is not active:
-
-- do not generate task-runner wrappers
-
-### Host output dir derivation
-
-Enable host output dirs only when the request implies:
-
-- logs
-- test results
-- command output
-- runtime inspection
-- isolated execution with observable results
-
-Standard output dirs:
+Standard host-visible output dirs:
 
 - `.docker-data/logs`
 - `.docker-data/test-results`
 - `.docker-data/command-output`
 
-### Productionization rule
+These are the primary observation path for:
 
-For production-oriented requests, prefer the smallest valid artifact set.
-
-Likely include:
-
-- `Dockerfile`
-- `.dockerignore`
-- `compose.yml` if needed
-- `compose.rebuild.yml` if rebuild-image mode is active
-
-Do not automatically include:
-
-- `compose.live.yml`
-- task-runner wrappers
-- host output dirs
-- generic execution wrappers
+- logs
+- test results
+- command output
+- job output
+- runtime inspection artifacts
 
 ---
 
@@ -335,137 +347,17 @@ Do not generate anything else unless explicitly requested.
 
 ---
 
-## Compose model
-
-Do not assume one generic compose file.
-
-Use:
-
-- `compose.yml` for shared services and shared definitions
-- `compose.live.yml` for live-bind behavior
-- `compose.rebuild.yml` for rebuild-image behavior
-
-### Live-bind rule
-
-If `live-bind` is enabled, likely include:
-
-- `compose.yml`
-- `compose.live.yml`
-
-Do not automatically include:
-
-- task-runner wrappers
-- host output dirs
-
-unless separately justified.
-
-### Live-bind observability rule
-
-Live-bind changes how code reaches the container, but it does not by itself guarantee visibility into what happened inside the container.
-
-If the user needs to observe execution effects inside the container, the resolver should additionally enable one or more of the following, but only when justified by the request:
-
-- host-visible output dirs
-- command wrapper scripts
-- task-runner execution paths
-
-Use these rules:
-
-- enable host output dirs when the request implies logs, test results, command output, job output, or runtime inspection
-- enable command wrapper scripts when the user wants repeatable in-container commands or Claude is expected to run actions inside the container
-- enable task-runner wrappers only when `task-runner` is active in the resolved plan
-
-In live-bind mode, host code changes affect the running container, but Claude should not assume those effects are observable unless the resolved plan also enables an observation path.
-
-### Rebuild-image rule
-
-If `rebuild-image` is enabled, likely include:
-
-- `compose.yml`
-- `compose.rebuild.yml`
-
-Do not automatically include:
-
-- `compose.live.yml`
-- host output dirs
-- task-runner wrappers
-
-unless separately justified.
-
-### Rebuild-image observability rule
-
-Rebuild-image changes how code reaches the container, but it does not by itself guarantee visibility into what happened inside the container.
-
-If the user needs to observe execution effects inside the container, the resolver should additionally enable one or more of the following, but only when justified by the request:
-
-- host-visible output dirs
-- command wrapper scripts
-- task-runner execution paths
-
-Use these rules:
-
-- enable host output dirs when the request implies logs, test results, command output, job output, or runtime inspection
-- enable command wrapper scripts when the user wants repeatable in-container commands or Claude is expected to run actions inside the container
-- enable task-runner wrappers only when `task-runner` is active in the resolved plan
-
-In rebuild-image mode, host code changes do not affect the container until rebuild, and Claude should not assume execution effects are visible unless the resolved plan also enables an observation path.
-
----
-
-## In-container execution requirement
-
-When the resolved plan includes a `task-runner`, use it for isolated execution when appropriate.
-
-Claude should prefer the containerized execution path for:
-
-- tests
-- jobs
-- scripts
-- integrations
-- scraping
-- tool actions
-- cron-like work
-- user requests to isolate execution from the host machine
-
-Do not assume those actions should run on the host when the resolved plan supports in-container execution.
-
-Container execution visibility is not implied by mode alone.
-If the user needs to inspect what happened inside the container, the resolved plan must explicitly enable an observation path such as host output dirs, wrapper scripts, or task-runner execution.
-
----
-
-## Create vs update behavior
-
-For each resolved artifact:
-
-1. determine whether the file already exists
-2. create it if missing
-3. update it if present
-4. verify it exists after the operation
-
-Rules:
-
-- treat missing resolved files as creation work
-- treat existing resolved files as update work
-- do not delete or replace unrelated files
-- do not recreate all Docker artifacts when only one needs updating
-
-Treat the task as:
-
-- **initial packaging** when most resolved files are missing
-- **update packaging** when one or more resolved files already exist
-
----
-
 ## Tool usage — mandatory
 
 You must use tools, not chat output.
 
 Required tool behavior:
 
-- use the Read tool to read all required cache files
-- use the Write tool to create or update every resolved artifact
-- use the Bash tool to run `ls -la <file>` after each write to confirm it exists
+- read all required cache files before Docker-related work
+- create or update every resolved artifact as a real file
+- verify each written file exists with:
+  `ls -la <file>`
+- use container-first execution paths for runtime, test, and job work
 - never print file contents in chat as a substitute for writing them
 - never stop after draft generation when the request includes artifact generation
 
@@ -500,6 +392,12 @@ Do not treat prose output as task completion.
    ```
 12. Report what was created or updated
 
+For runtime actions after generation:
+
+- execute through `app` or `task-runner`
+- read logs and outputs through mounted output dirs or runtime MCP
+- do not run application, test, or job commands directly on host
+
 Do not pause between steps.
 Do not ask for confirmation mid-flow unless there is genuine unresolved target ambiguity.
 
@@ -524,12 +422,18 @@ The task is not complete unless:
 
 - cache has been read first
 - planning files exist
-- stale state has been checked
+- stale-plan state has been checked
 - request lifecycle has been handled
 - `resolved_plan` exists for packaging requests
 - image selection has been re-checked through MCP
 - resolved artifacts have been written as real files
 - each written file has been verified to exist on disk
+
+For runtime, test, or job actions, completion also requires:
+
+- the action ran in a container, not on the host
+- observation came back through mounted output dirs or runtime MCP log/output tools
+- runtime state has been checked when rerunning after edits
 
 Do not claim success before all of the above are true.
 
@@ -546,3 +450,5 @@ Do not claim success before all of the above are true.
 - Host-visible logs, test results, and command output are part of the contract.
 - Draft hints are not generation input.
 - Only `resolved_plan` may drive final artifact generation.
+- Code changes happen in the workspace.
+- Runtime effects happen in containers.

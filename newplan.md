@@ -1028,3 +1028,569 @@ The best next practical milestone is:
 * hook that blocks host runtime/test commands
 
 That is the point where the system stops being mostly architecture and starts behaving the way you want.
+
+
+Good. These two phases are the first real bridge from architecture into a working plugin/runtime system.
+
+Here is the clean implementation plan.
+
+# Phase 2 — Define the two MCPs
+
+## Goal
+
+Split responsibilities cleanly:
+
+* **MCP 1** = image discovery and validation
+* **MCP 2** = runtime control and observation
+
+This is the correct separation. Do not merge them.
+
+---
+
+## MCP 1 — image/docker-hub MCP
+
+### Scope
+
+Keep this MCP narrow.
+
+It should only do:
+
+* official image discovery
+* tag/variant comparison
+* runtime image suitability checks
+* final application image choice
+* final service image choice
+
+### It should not do
+
+Do not let it handle:
+
+* container startup
+* compose control
+* logs
+* exec
+* rebuilds
+* output file reads
+
+That belongs to runtime MCP.
+
+### Input sources
+
+It should consume:
+
+* target runtime
+* framework
+* selected roles
+* selected mode
+* service requirements
+* planner image hints
+
+### Output shape
+
+It should return normalized image decisions like:
+
+```json
+{
+  "application": {
+    "image": "node:20-bookworm-slim",
+    "reason": "compatible official image for Next.js production"
+  },
+  "services": {
+    "postgres": {
+      "image": "postgres:16",
+      "reason": "official stable supported image"
+    }
+  }
+}
+```
+
+### Files affected
+
+Mostly documentation and policy only for now:
+
+* `ARCHITECTURE.md`
+* `CLAUDE.md`
+* `.claude/skills/image_select_only/SKILL.md`
+* `.claude/skills/docker_plan/SKILL.md`
+* `.claude/skills/dockerize_project/SKILL.md`
+
+No major Python refactor needed here yet if you still use existing image report flow.
+
+---
+
+## MCP 2 — custom Docker runtime MCP
+
+## Goal
+
+This becomes the **operational runtime bridge**.
+
+Claude should use this MCP instead of host shell for:
+
+* running app tasks
+* running isolated tasks
+* compose lifecycle
+* logs
+* output reads
+* rebuilds
+
+---
+
+## Required tools
+
+Implement these first exactly as named:
+
+* `resolve_images(target_id, mode, roles)`
+* `compose_up(mode)`
+* `compose_down()`
+* `compose_ps()`
+* `compose_logs(service, tail)`
+* `exec_app(cmd)`
+* `exec_task_runner(cmd)`
+* `rebuild(mode)`
+* `read_container_output(kind, path)`
+* `copy_from_container(container, src, dest)`
+
+These are enough for the first usable runtime layer.
+
+---
+
+## Recommended extra tools
+
+Add next:
+
+* `compose_config(mode)`
+* `container_health(service)`
+* `exec_app_json(cmd)`
+* `exec_task_runner_json(cmd)`
+* `tail_output(kind, path, lines)`
+* `list_outputs(kind)`
+
+These make debugging and agent behavior much cleaner.
+
+---
+
+## MCP 2 ownership rules
+
+### Runtime MCP should own
+
+* compose orchestration
+* container exec
+* logs retrieval
+* output retrieval
+* rebuild/restart operations
+* health inspection
+
+### Runtime MCP should not own
+
+* editing source files
+* planning artifacts
+* stale-plan logic
+* lifecycle resolution
+* image selection policy beyond direct resolution calls
+
+That keeps it operational, not architectural.
+
+---
+
+## Suggested runtime MCP project structure
+
+```text
+mcp/docker-runtime-server/
+├─ package.json
+├─ tsconfig.json
+├─ src/
+│  ├─ index.ts
+│  ├─ tools/
+│  │  ├─ resolveImages.ts
+│  │  ├─ composeUp.ts
+│  │  ├─ composeDown.ts
+│  │  ├─ composePs.ts
+│  │  ├─ composeLogs.ts
+│  │  ├─ execApp.ts
+│  │  ├─ execTaskRunner.ts
+│  │  ├─ rebuild.ts
+│  │  ├─ readContainerOutput.ts
+│  │  ├─ copyFromContainer.ts
+│  │  ├─ composeConfig.ts
+│  │  ├─ containerHealth.ts
+│  │  ├─ execAppJson.ts
+│  │  ├─ execTaskRunnerJson.ts
+│  │  ├─ tailOutput.ts
+│  │  └─ listOutputs.ts
+│  ├─ lib/
+│  │  ├─ docker.ts
+│  │  ├─ compose.ts
+│  │  ├─ outputPaths.ts
+│  │  ├─ commandRunner.ts
+│  │  ├─ jsonExec.ts
+│  │  └─ errors.ts
+│  └─ types/
+│     └─ runtime.ts
+```
+
+---
+
+## Runtime MCP implementation order
+
+### Step 1
+
+Implement low-level helpers:
+
+* compose command runner
+* docker exec runner
+* log reader
+* output path resolver
+* structured error wrapper
+
+### Step 2
+
+Implement core runtime tools:
+
+* `compose_up`
+* `compose_down`
+* `compose_ps`
+* `exec_app`
+* `exec_task_runner`
+* `compose_logs`
+* `rebuild`
+
+### Step 3
+
+Implement observation tools:
+
+* `read_container_output`
+* `tail_output`
+* `list_outputs`
+* `copy_from_container`
+
+### Step 4
+
+Implement structured execution tools:
+
+* `exec_app_json`
+* `exec_task_runner_json`
+
+### Step 5
+
+Implement health and merged config tools:
+
+* `container_health`
+* `compose_config`
+
+---
+
+# Phase 3 — Define the container execution contract
+
+## Goal
+
+Every runtime action must route through Docker, not host shell.
+
+This is the key contract.
+
+---
+
+## App container responsibilities
+
+Use `app` for:
+
+* app start
+* app shell
+* dev server
+* build
+* normal app-local tasks
+
+This should be the default runtime container for ordinary app work.
+
+### Examples
+
+Use `exec_app(cmd)` for:
+
+* `npm run dev`
+* `npm run build`
+* `python manage.py runserver`
+* `python manage.py migrate` only if not isolated
+* `node scripts/local-task.js` if it is app-local and safe
+
+---
+
+## Task-runner responsibilities
+
+Use `task-runner` for:
+
+* tests
+* cron-like jobs
+* data scripts
+* scraping
+* integrations
+* risky tasks
+* host-isolated work
+* third-party connected work
+* anything that may mutate environment or consume secrets noisily
+
+This is the safer execution container.
+
+### Examples
+
+Use `exec_task_runner(cmd)` for:
+
+* `pytest`
+* `npm test`
+* scraping jobs
+* integration sync tasks
+* cron simulations
+* migration verification jobs
+* browser automation
+* Google-connected actions
+* third-party API tasks
+
+---
+
+## Hard routing rule
+
+If a task:
+
+* mutates environment
+* consumes secrets
+* hits third-party services
+* could hang/fail noisily
+* should be isolated from host
+* is explicitly requested to run “inside Docker”
+
+then:
+
+* prefer `task-runner`
+
+This should be a hard resolver/runtime rule, not informal guidance.
+
+---
+
+## Execution contract shape
+
+Add this conceptually to resolved execution metadata:
+
+```json
+{
+  "execution_policy": "container-first",
+  "default_exec_role": "app",
+  "isolated_exec_role": "task-runner",
+  "container_exec_rules": {
+    "tests": "task-runner",
+    "jobs": "task-runner",
+    "integrations": "task-runner",
+    "app_runtime": "app",
+    "build": "app"
+  }
+}
+```
+
+You do not need to fully code this immediately, but this is the correct eventual shape.
+
+---
+
+## Observation contract
+
+Every runtime action should produce observable output through one of these paths:
+
+* MCP logs tool
+* MCP output tool
+* mounted host output dirs
+
+### Standard output dirs
+
+* `.docker-data/logs`
+* `.docker-data/test-results`
+* `.docker-data/command-output`
+
+### Rule
+
+No runtime action is considered complete unless its result is observable by Claude through:
+
+* MCP output/log tools, or
+* these mounted directories
+
+---
+
+## Wrapper script contract
+
+Even if MCP runs the commands, wrapper scripts are still useful and should exist.
+
+Create:
+
+* `docker/commands/run-in-container.sh`
+* `docker/commands/test-in-container.sh`
+* `docker/commands/logs.sh`
+* `docker/commands/run-in-task-runner.sh`
+* `docker/commands/exec-in-task-runner.sh`
+
+### Each wrapper should
+
+* route to correct container
+* capture stdout/stderr
+* write outputs to `.docker-data/...`
+* preserve exit code
+* optionally write metadata file
+
+That makes runtime results easier for Claude to inspect.
+
+---
+
+# What is done already for these phases
+
+## Already done conceptually
+
+* You already decided the split:
+
+  * image MCP
+  * runtime MCP
+* You already defined `app` vs `task-runner`
+* You already defined host-edits / container-exec behavior
+* You already defined mounted output dirs conceptually
+
+## Already partially done in docs
+
+* `ARCHITECTURE.md` and updated policy/skills already say:
+
+  * host edits are allowed
+  * runtime should happen in containers
+  * task-runner exists
+  * observation comes back through output dirs or MCP
+
+---
+
+# What is new in Phase 2/3
+
+These are the genuinely new implementation items:
+
+## New
+
+* actual custom Docker runtime MCP server
+* runtime MCP tool schema
+* strict runtime routing contract
+* app vs task-runner operational boundaries
+* wrapper script design tied to mounted outputs
+
+## Not built yet
+
+* MCP server code
+* wrapper scripts
+* hook enforcement
+* runtime-state file / rebuild detection
+* `container-exec` subagent
+
+---
+
+# Files to update now
+
+## Documentation / policy
+
+Update or extend:
+
+* `ARCHITECTURE.md`
+* `CLAUDE.md`
+* `.claude/skills/dockerize_project/SKILL.md`
+
+Add explicit sections for:
+
+* two MCP separation
+* runtime MCP tool list
+* app vs task-runner routing rules
+* observation/output contract
+
+## New implementation files
+
+Create:
+
+```text
+mcp/docker-runtime-server/src/index.ts
+mcp/docker-runtime-server/src/tools/resolveImages.ts
+mcp/docker-runtime-server/src/tools/composeUp.ts
+mcp/docker-runtime-server/src/tools/composeDown.ts
+mcp/docker-runtime-server/src/tools/composePs.ts
+mcp/docker-runtime-server/src/tools/composeLogs.ts
+mcp/docker-runtime-server/src/tools/execApp.ts
+mcp/docker-runtime-server/src/tools/execTaskRunner.ts
+mcp/docker-runtime-server/src/tools/rebuild.ts
+mcp/docker-runtime-server/src/tools/readContainerOutput.ts
+mcp/docker-runtime-server/src/tools/copyFromContainer.ts
+mcp/docker-runtime-server/src/lib/docker.ts
+mcp/docker-runtime-server/src/lib/compose.ts
+mcp/docker-runtime-server/src/lib/outputPaths.ts
+mcp/docker-runtime-server/src/lib/errors.ts
+```
+
+Then later:
+
+```text
+mcp/docker-runtime-server/src/tools/composeConfig.ts
+mcp/docker-runtime-server/src/tools/containerHealth.ts
+mcp/docker-runtime-server/src/tools/execAppJson.ts
+mcp/docker-runtime-server/src/tools/execTaskRunnerJson.ts
+mcp/docker-runtime-server/src/tools/tailOutput.ts
+mcp/docker-runtime-server/src/tools/listOutputs.ts
+```
+
+## New wrapper files
+
+Create:
+
+```text
+docker/commands/run-in-container.sh
+docker/commands/test-in-container.sh
+docker/commands/logs.sh
+docker/commands/run-in-task-runner.sh
+docker/commands/exec-in-task-runner.sh
+```
+
+---
+
+# Done criteria for these two phases
+
+## Phase 2 is done when
+
+Claude can:
+
+* choose images through image MCP
+* bring containers up/down through runtime MCP
+* run commands only through runtime MCP
+* read logs/results only through runtime MCP or mounted output dirs
+
+## Phase 3 is done when
+
+Every runtime action maps clearly to:
+
+* `exec_app(cmd)`
+* `exec_task_runner(cmd)`
+
+and Claude no longer treats host shell as a normal runtime path.
+
+---
+
+# Best next concrete move
+
+The best next move is:
+
+## Step 1
+
+Update docs first with:
+
+* two MCP split
+* app vs task-runner routing rules
+
+## Step 2
+
+Create runtime MCP skeleton with only these 6 tools first:
+
+* `compose_up`
+* `compose_down`
+* `compose_logs`
+* `exec_app`
+* `exec_task_runner`
+* `rebuild`
+
+## Step 3
+
+Create wrapper scripts and output dirs
+
+That gives you the first working container-exec system.
+
+If you want, I can next write the exact `PLUGIN_IMPLEMENTATION_PLAN.md` for Phase 2 and Phase 3, or generate the runtime MCP file skeleton.
