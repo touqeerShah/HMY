@@ -42,3 +42,5 @@ next-env.d.ts
 node_modules
 .env
 docker-hub-mcp-server
+
+node_modules
