@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0",
-  "nodes": [
+  "target": ".",
+  "included_nodes": [
     {
       "id": ".",
       "type": "app",
@@ -16,12 +16,13 @@
       "service": "postgres"
     }
   ],
-  "edges": [
+  "included_edges": [
     {
       "from": ".",
       "to": "infra/postgres",
       "type": "uses",
       "strength": 1.0
     }
-  ]
+  ],
+  "target_id": "."
 }

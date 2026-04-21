@@ -1,2 +1,2 @@
 {"id": ".:summary", "path": ".", "type": "app_summary", "text": "nextjs frontend app at . using node. Services: postgres."}
-{"id": "infra/postgres:summary", "path": "infra/postgres", "type": "service_summary", "text": "Infrastructure service postgres of kind service."}
+{"id": "infra/postgres:summary", "path": "infra/postgres", "type": "service_summary", "text": "Infrastructure service postgres of kind database."}

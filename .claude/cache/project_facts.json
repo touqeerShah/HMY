@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "generated_at": "2026-04-15T19:58:23Z",
+  "generated_at": "2026-04-21T10:58:57Z",
   "repo": {
     "name": "HMY",
     "root": ".",
@@ -70,7 +70,8 @@
     {
       "id": "infra/postgres",
       "name": "postgres",
-      "kind": "service"
+      "kind": "database",
+      "engine": "postgres"
     }
   ],
   "container_defaults": {
