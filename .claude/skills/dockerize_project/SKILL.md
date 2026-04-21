@@ -246,7 +246,7 @@ Use `--target` when target selection is already known and necessary.
 
 ## Runtime execution requirement
 
-When the user wants runtime work, testing, jobs, or isolation:
+When the user wants runtime work, testing, jobs, isolation, or execution-based verification:
 
 - do not run those actions directly on the host
 - route normal runtime actions through the `app` container
@@ -254,19 +254,62 @@ When the user wants runtime work, testing, jobs, or isolation:
 
 Examples that should be container-routed:
 
+- install
 - tests
 - app startup
 - build validation
+- check whether it works
+- runtime verification
 - migrations
 - cron-like jobs
 - integrations
 - scraping
+- browser automation
 - tool actions that affect runtime state
 - risky or host-avoiding execution
 
 Use the runtime MCP or approved wrapper scripts to perform these actions.
 
 For isolated or risky runtime execution, delegate to the `container-exec` subagent. Do not handle those execution flows in the main agent unless the subagent is unavailable.
+
+---
+
+## Automatic execution routing
+
+When the request includes execution, do not ask whether to use Docker. Route it into containers automatically.
+
+Any request that implies execution should automatically be routed into Docker containers, even if the user does not explicitly say “inside Docker”.
+
+Treat these as execution requests:
+
+- install
+- run
+- start
+- build
+- test
+- check
+- debug
+- migrate
+- scrape
+- cron or jobs
+- integration execution
+- browser automation
+- runtime verification
+
+Routing:
+
+- Use the `app` container for normal application execution.
+- Use the `task-runner` container for isolated, risky, test, migration, scraping, integration, cron, job, or browser-automation execution.
+- Use `resolved_plan.runtime_exec_role`, `resolved_plan.isolated_exec_role`, and `resolved_plan.runtime_tools` when available.
+- If runtime state indicates rebuild is required, rebuild before execution.
+- If runtime state indicates restart is required, restart or re-up before execution.
+
+Do not execute those actions on the host.
+Do not wait for the user to explicitly repeat “inside Docker” when the request already implies execution.
+
+When a request says “check”, “verify”, or “see if it works”, treat that as runtime validation and execute it through the appropriate container.
+
+A plain file edit does not require automatic execution unless the user also asks to run, test, check, verify, or debug it.
 
 ---
 
@@ -308,6 +351,12 @@ These are the primary observation path for:
 - command output
 - job output
 - runtime inspection artifacts
+
+Rules:
+
+- no runtime action is complete unless its result is observable
+- observation must come back through host-mounted outputs or runtime MCP tools
+- do not assume compose mode alone makes effects visible
 
 ---
 

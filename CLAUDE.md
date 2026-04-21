@@ -440,3 +440,43 @@ cat .claude/skills/dockerize_project/SKILL.md
 Do not reference skills from any other path.
 
 Delegate isolated or risky runtime work to the `container-exec` subagent. Do not handle those execution flows in the main agent unless the subagent is unavailable.
+
+## Container-first execution policy
+
+For this project, code edits may happen in the workspace, but execution must default to Docker.
+
+Any request that implies execution should automatically be routed into Docker containers, even if the user does not explicitly say “inside Docker”.
+
+Treat the following as execution requests and route them into containers automatically:
+- install
+- run
+- start
+- build
+- test
+- check
+- debug
+- migrate
+- scrape
+- cron or job execution
+- integration runs
+- browser automation
+- any request that asks to verify behavior by running the project
+
+Do not run those actions directly on the host.
+
+Execution routing rules:
+- Use the `app` container for normal application execution such as install, build, start, dev, and ordinary runtime checks.
+- Use the `task-runner` container for isolated, risky, test, migration, scraping, integration, browser automation, cron, or job-style execution.
+- If the user explicitly asks for isolation, asks to avoid host execution, or the task may mutate environment, consume secrets, hit third-party services, or fail noisily, prefer `task-runner`.
+
+Examples:
+- “install dependencies” → run in container
+- “test this” → run in container
+- “check if it works” → run in container
+- “build the app” → run in container
+- “run migration” → run in container
+- “debug this issue” → use container execution and container-visible logs/output
+
+When a request says “check”, “verify”, or “see if it works”, treat that as runtime validation and execute it through the appropriate container.
+
+A plain file edit does not require automatic execution unless the user also asks to run, test, check, verify, or debug it.
