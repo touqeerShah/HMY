@@ -480,3 +480,23 @@ Examples:
 When a request says “check”, “verify”, or “see if it works”, treat that as runtime validation and execute it through the appropriate container.
 
 A plain file edit does not require automatic execution unless the user also asks to run, test, check, verify, or debug it.
+
+## Scratch container policy
+
+Not all container execution should use the current project containers.
+
+When a request is only a small isolated experiment, demo, package trial, or proof of concept that is not related to the current repository, do not run it inside the project `app` or `task-runner` containers.
+
+Use a temporary scratch container instead.
+
+Use a scratch container when:
+- the request is unrelated to the project codebase
+- the user wants to try a package, library, CLI, or runtime in isolation
+- the task should not modify project dependencies or pollute the project environment
+- the task is a minimal demonstration or one-off test
+
+Use the project `app` or `task-runner` containers only when the task is actually about the current repository, its code, its dependencies, or its runtime behavior.
+
+If unsure:
+- prefer project containers for project validation
+- prefer a scratch container for isolated demos or package experiments

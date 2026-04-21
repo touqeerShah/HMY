@@ -18,6 +18,8 @@ def _common_capabilities_defaults(
     copy_outputs: list[str],
     docker_strategy: str,
     framework_profile: str,
+    supports_scratch_container: bool = True,
+    scratch_base_image: str = "python:3.12-slim",
 ) -> dict[str, Any]:
     return {
         # Capabilities
@@ -27,11 +29,13 @@ def _common_capabilities_defaults(
         "supports_task_runner": True,
         "supports_host_output_dirs": True,
         "supports_command_runner": True,
+        "supports_scratch_container": supports_scratch_container,
 
         # Defaults
         "default_mode": default_mode,
         "default_role_bias": "app-only",
         "base_image_role": base_image_role,
+        "scratch_base_image": scratch_base_image,
 
         # Suggestions
         "suggested_modes": list(suggested_modes),
@@ -90,6 +94,8 @@ def infer_node_layout(target: dict[str, Any], facts: dict[str, Any]) -> dict[str
             copy_outputs=[".next", "public", "package.json"],
             docker_strategy="multi-stage",
             framework_profile="nextjs",
+            supports_scratch_container=True,
+            scratch_base_image="node:20-bookworm-slim",
         )
 
     return _common_capabilities_defaults(
@@ -106,6 +112,8 @@ def infer_node_layout(target: dict[str, Any], facts: dict[str, Any]) -> dict[str
         copy_outputs=["dist", "package.json"],
         docker_strategy="multi-stage",
         framework_profile="node-generic",
+        supports_scratch_container=True,
+        scratch_base_image="node:20-bookworm-slim",
     )
 
 
@@ -126,6 +134,8 @@ def infer_python_layout(target: dict[str, Any], facts: dict[str, Any]) -> dict[s
         copy_outputs=[],
         docker_strategy="single-stage",
         framework_profile="python-generic",
+        supports_scratch_container=True,
+        scratch_base_image="python:3.12-slim",
     )
 
 
@@ -153,4 +163,6 @@ def infer_rules_for_target(target: dict[str, Any], facts: dict[str, Any]) -> dic
         copy_outputs=[],
         docker_strategy="single-stage",
         framework_profile="generic-runtime",
+        supports_scratch_container=True,
+        scratch_base_image="python:3.12-slim",
     )

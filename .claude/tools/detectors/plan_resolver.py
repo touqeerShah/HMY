@@ -5,6 +5,9 @@ from typing import Any
 from detectors.common import build_error
 
 
+OUTPUT_ROOT = "/workspace/.docker-data"
+
+
 def _dedupe_keep_order(items: list[str]) -> list[str]:
     seen: set[str] = set()
     ordered: list[str] = []
@@ -13,6 +16,10 @@ def _dedupe_keep_order(items: list[str]) -> list[str]:
             seen.add(item)
             ordered.append(item)
     return ordered
+
+
+def _contains_any(text: str, words: list[str]) -> bool:
+    return any(word in text for word in words)
 
 
 def _smallest_valid_roles(plan: dict[str, Any]) -> list[str]:
@@ -63,9 +70,95 @@ def _derive_compose_files(
     return files
 
 
+def _is_project_related_request(user_request: str) -> bool:
+    text = (user_request or "").lower()
+
+    project_terms = [
+        "project",
+        "repo",
+        "repository",
+        "codebase",
+        "app",
+        "application",
+        "this code",
+        "our code",
+        "current project",
+        "current repo",
+        "current repository",
+        "component",
+        "route",
+        "page",
+        "layout",
+        "src/",
+        "package.json",
+        "requirements.txt",
+        "dockerfile",
+        "compose.yml",
+        "migration",
+        "migrate",
+        "build the app",
+        "run the app",
+        "test this project",
+        "debug this project",
+    ]
+    return _contains_any(text, project_terms)
+
+
+def _needs_scratch_execution(
+    user_request: str,
+    request_class: str,
+    capabilities: dict[str, Any],
+) -> bool:
+    if not capabilities.get("supports_scratch_container", False):
+        return False
+
+    text = (user_request or "").lower()
+
+    scratch_terms = [
+        "simple example",
+        "small example",
+        "small simple code",
+        "minimal example",
+        "demo",
+        "proof of concept",
+        "poc",
+        "how it works",
+        "show how it works",
+        "try this package",
+        "test this package",
+        "install this package",
+        "pip install",
+        "npm install",
+        "pnpm add",
+        "yarn add",
+        "library demo",
+        "quick experiment",
+        "one-off test",
+        "not related to project",
+        "unrelated to project",
+        "outside the project",
+        "scratch",
+    ]
+
+    project_like_classes = {
+        "new_packaging",
+        "productionization",
+        "mode_change",
+        "role_change",
+        "artifact_update",
+        "artifact_regeneration",
+    }
+
+    if request_class in project_like_classes:
+        return False
+
+    return _contains_any(text, scratch_terms) and not _is_project_related_request(text)
+
+
 def _needs_runtime_execution(user_request: str, request_class: str) -> bool:
     text = (user_request or "").lower()
     runtime_terms = [
+        "install",
         "run",
         "test",
         "check",
@@ -81,6 +174,8 @@ def _needs_runtime_execution(user_request: str, request_class: str) -> bool:
         "dev",
         "job",
         "integration",
+        "verify",
+        "see if it works",
     ]
     return request_class in {"isolated_runtime_request"} or any(
         term in text for term in runtime_terms
@@ -122,6 +217,8 @@ def _needs_observation(user_request: str, request_class: str) -> bool:
         "test",
         "check",
         "report",
+        "verify",
+        "see if it works",
     ]
     return request_class in {"isolated_runtime_request", "artifact_regeneration"} or any(
         term in text for term in observation_terms
@@ -137,6 +234,9 @@ def _derive_command_scripts(
     if not capabilities.get("supports_command_runner", False):
         return []
 
+    if _needs_scratch_execution(user_request, request_class, capabilities):
+        return []
+
     text = (user_request or "").lower()
     scripts: list[str] = []
 
@@ -145,18 +245,16 @@ def _derive_command_scripts(
         "artifact_regeneration",
     }
 
-    needs_logs = any(
-        word in text for word in ["log", "logs", "debug", "inspect", "trace"]
+    needs_logs = _contains_any(text, ["log", "logs", "debug", "inspect", "trace"])
+    needs_tests = _contains_any(
+        text, ["test", "pytest", "jest", "integration", "coverage"]
     )
-    needs_tests = any(
-        word in text for word in ["test", "pytest", "jest", "integration", "coverage"]
+    needs_app_exec = _contains_any(
+        text, ["install", "run", "build", "start", "dev", "shell", "check", "verify"]
     )
-    needs_app_exec = any(
-        word in text for word in ["run", "build", "start", "dev", "shell", "check"]
-    )
-    needs_task_exec = "task-runner" in enabled_roles or any(
-        word in text
-        for word in [
+    needs_task_exec = "task-runner" in enabled_roles and _contains_any(
+        text,
+        [
             "job",
             "cron",
             "scrape",
@@ -166,7 +264,7 @@ def _derive_command_scripts(
             "isolated",
             "not on host",
             "inside docker",
-        ]
+        ],
     )
 
     if needs_app_exec or runtime_like:
@@ -198,14 +296,17 @@ def _derive_host_output_dirs(
     if not capabilities.get("supports_host_output_dirs", False):
         return []
 
+    if _needs_scratch_execution(user_request, request_class, capabilities):
+        return []
+
     text = (user_request or "").lower()
 
     wants_observation = request_class in {
         "isolated_runtime_request",
         "artifact_regeneration",
-    } or any(
-        word in text
-        for word in [
+    } or _contains_any(
+        text,
+        [
             "log",
             "logs",
             "test",
@@ -217,7 +318,8 @@ def _derive_host_output_dirs(
             "trace",
             "report",
             "check",
-        ]
+            "verify",
+        ],
     )
 
     if not wants_observation and "task-runner" not in enabled_roles:
@@ -248,14 +350,18 @@ def _derive_artifacts(
 def _derive_runtime_tools(
     runtime_exec_role: str,
     isolated_exec_role: str,
+    scratch_exec_role: str | None,
     observability_enabled: bool,
 ) -> dict[str, str]:
     tools = {
-        "app_exec": "mcp.exec_app" if runtime_exec_role == "app" else "mcp.exec_task_runner",
+        "app_exec": "mcp.exec_app",
         "task_exec": "mcp.exec_task_runner"
         if isolated_exec_role == "task-runner"
         else "mcp.exec_app",
     }
+
+    if scratch_exec_role == "scratch":
+        tools["scratch_exec"] = "mcp.exec_scratch"
 
     if observability_enabled:
         tools["logs"] = "mcp.compose_logs"
@@ -380,10 +486,20 @@ def resolve_from_request(
 
     needs_runtime_execution = _needs_runtime_execution(user_request, request_class)
     needs_isolation = _needs_isolation(user_request, request_class)
+    needs_scratch = _needs_scratch_execution(
+        user_request=user_request,
+        request_class=request_class,
+        capabilities=capabilities,
+    )
     needs_observation = _needs_observation(user_request, request_class)
 
     runtime_exec_role = "app"
-    if needs_isolation and "task-runner" in enabled_roles:
+    scratch_exec_role: str | None = None
+
+    if needs_scratch:
+        runtime_exec_role = "scratch"
+        scratch_exec_role = "scratch"
+    elif needs_isolation and "task-runner" in enabled_roles:
         runtime_exec_role = "task-runner"
 
     isolated_exec_role = "task-runner" if "task-runner" in enabled_roles else "app"
@@ -392,6 +508,7 @@ def resolve_from_request(
     runtime_tools = _derive_runtime_tools(
         runtime_exec_role=runtime_exec_role,
         isolated_exec_role=isolated_exec_role,
+        scratch_exec_role=scratch_exec_role,
         observability_enabled=observability_enabled,
     )
 
@@ -404,10 +521,12 @@ def resolve_from_request(
         "host_output_dirs": host_output_dirs,
         "execution_targets": list(enabled_roles),
         "execution_policy": "container-first",
+        "execution_context": "scratch" if needs_scratch else "project",
         "runtime_exec_role": runtime_exec_role if needs_runtime_execution else "app",
         "isolated_exec_role": isolated_exec_role,
+        "scratch_exec_role": scratch_exec_role,
         "observability_enabled": observability_enabled,
-        "output_root": "/workspace/.docker-data" if host_output_dirs else None,
+        "output_root": OUTPUT_ROOT if host_output_dirs else None,
         "runtime_tools": runtime_tools,
         "image_resolution_policy": "recheck-with-mcp-before-write",
     }

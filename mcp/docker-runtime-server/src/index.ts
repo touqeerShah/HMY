@@ -11,6 +11,7 @@ import { composePs } from "./tools/composePs.js";
 import { composeUp } from "./tools/composeUp.js";
 import { copyFromContainer } from "./tools/copyFromContainer.js";
 import { execApp } from "./tools/execApp.js";
+import { execScratch } from "./tools/execScratch.js";
 import { execTaskRunner } from "./tools/execTaskRunner.js";
 import { readContainerOutput } from "./tools/readContainerOutput.js";
 import { rebuild } from "./tools/rebuild.js";
@@ -25,6 +26,7 @@ const tools = {
   compose_logs: composeLogs,
   exec_app: execApp,
   exec_task_runner: execTaskRunner,
+  exec_scratch: execScratch,
   rebuild,
   read_container_output: readContainerOutput,
   copy_from_container: copyFromContainer,
@@ -115,6 +117,7 @@ const toolDefinitions = [
         mode: { type: "string" },
         repoRoot: { type: "string" },
       },
+      required: ["cmd"],
       additionalProperties: true,
     },
   },
@@ -133,6 +136,29 @@ const toolDefinitions = [
         mode: { type: "string" },
         repoRoot: { type: "string" },
       },
+      required: ["cmd"],
+      additionalProperties: true,
+    },
+  },
+  {
+    name: "exec_scratch",
+    description:
+      "Run a one-off command in a temporary scratch container for non-project experiments.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        cmd: {
+          oneOf: [
+            { type: "string" },
+            { type: "array", items: { type: "string" } },
+          ],
+        },
+        image: { type: "string" },
+        repoRoot: { type: "string" },
+        mountOutput: { type: "boolean" },
+        workdir: { type: "string" },
+      },
+      required: ["cmd"],
       additionalProperties: true,
     },
   },

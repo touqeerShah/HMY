@@ -501,3 +501,28 @@ Do not claim success before all of the above are true.
 - Only `resolved_plan` may drive final artifact generation.
 - Code changes happen in the workspace.
 - Runtime effects happen in containers.
+
+
+## Project container vs scratch container routing
+
+Do not assume every execution request belongs in the current project containers.
+
+Use the current project containers when:
+- running, testing, building, debugging, or validating the current repository
+- using project files
+- using project dependencies
+- verifying project behavior
+
+Use a temporary scratch container when:
+- the request is a small isolated demo
+- the request is unrelated to the repository
+- the request is only to try a package, library, CLI, or runtime
+- the request should not change or pollute the project environment
+
+Examples of scratch-container requests:
+- install a library and show a minimal example
+- test a package unrelated to the repo
+- run a tiny proof-of-concept snippet
+- demonstrate how a tool works in isolation
+
+Do not run those isolated experiments inside the project `app` or `task-runner` containers.

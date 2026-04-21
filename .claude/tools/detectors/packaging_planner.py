@@ -110,6 +110,9 @@ def _build_capabilities(rules: dict[str, Any]) -> dict[str, Any]:
             rules.get("supports_host_output_dirs", False)
         ),
         "supports_command_runner": bool(rules.get("supports_command_runner", False)),
+        "supports_scratch_container": bool(
+            rules.get("supports_scratch_container", False)
+        ),
     }
 
 
@@ -120,6 +123,7 @@ def _build_defaults(rules: dict[str, Any]) -> dict[str, Any]:
         "base_image_role": rules.get(
             "base_image_role", "shared-base-for-app-and-task-runner"
         ),
+        "scratch_base_image": rules.get("scratch_base_image", "python:3.12-slim"),
     }
 
 
@@ -261,11 +265,13 @@ def build_packaging_plan(
                 if capabilities.get("supports_host_output_dirs", False)
                 else None
             ),
+            "scratch_base_image": defaults.get("scratch_base_image"),
         },
         "image_hints": {
             "application_candidate": selected_app_image,
             "service_candidates": selected_service_images,
             "base_image_role": defaults.get("base_image_role"),
+            "scratch_base_image": defaults.get("scratch_base_image"),
         },
         "target_hints": {
             "app_type": packaging.get("app_type", "service"),
